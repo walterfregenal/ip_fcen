@@ -1,0 +1,10 @@
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Configuración local de VS Code
+.vscode/
+
+# Variables de entorno / Secretos
+.env
