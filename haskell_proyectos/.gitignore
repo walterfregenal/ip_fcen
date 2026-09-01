@@ -1,0 +1,14 @@
+# Haskell
+*.o
+*.hi
+*.dyn_o
+*.dyn_hi
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# VS Code
+.vscode/
