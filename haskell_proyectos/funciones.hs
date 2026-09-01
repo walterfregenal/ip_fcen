@@ -65,22 +65,13 @@ digitoDecenas x = digitoUnidades(div (absoluto x) 10)
 estanRelacionados :: Integer -> Integer -> Bool
 estanRelacionados a b  = ( mod a b == 0)
 ---
-----
-elFst :: (Num x) => (x,x) -> x
-elFst (x,_) = x
-----
-elSnd :: (Num x) => (x,x) -> x
-elSnd (_,y) = y
----
+
 
 ---
 productoInterno :: (Float,Float) -> (Float,Float) -> Float
 productoInterno x y = elFst x * elFst y + elSnd x * elSnd y 
 ---
-esParMenor :: (Float,Float) -> (Float,Float) -> Bool
-esParMenor x y | elFst x < elFst y = True
-               | otherwise = False
----
+
 
 distancia :: (Float,Float) -> (Float,Float) -> Float
 distancia x y = sqrt((elFst x - elFst y)^2 + (elSnd x - elSnd y)^2)
@@ -106,34 +97,6 @@ todosMenores :: (Integer, Integer, Integer) -> Bool
 todosMenores (t0, t1, t2) = (fx t0 > gx t0) && (fx t1 > gx t1) && (fx t2 > gx t2)
 ----
 
-esBisiesto :: Integer -> Bool
-esBisiesto n = (mod n 4 == 0) && ((mod n 100 /= 0) || (mod n 400 == 0))
-----
-sumaDivisoreshasta :: Integer ->Integer -> Integer
-sumaDivisoreshasta x y | y == 1 = 1
-                       | mod x y == 0 = y + sumaDivisoreshasta x (y-1)
-                       | otherwise = sumaDivisoreshasta x (y-1)
----
-sumaDivisores :: Integer -> Integer
-sumaDivisores x = sumaDivisoreshasta x x
----
-sumaPares :: Integer -> Integer
-sumaPares x | x == 0 = 0
-            | mod x 2 == 0 = x + sumaPares (x-2)
-            | otherwise = sumaPares (x-1)
----
-
---- Suma de potencias::
--- Suma los exponentes j de 1 a n para una base fija i: (i^n + i^(n-1) + ... + i^1)
-sumaExponentes :: Integer -> Integer -> Integer
-sumaExponentes _ 0 = 0
-sumaExponentes i j = i^j + sumaExponentes i (j - 1)
-
--- Suma las bases i de 1 a m
-sumaPotencias :: Integer -> Integer -> Integer
-sumaPotencias 0 _ = 0
-sumaPotencias m n = sumaExponentes m n + sumaPotencias (m - 1) n
----
 ---- 
 absX :: Float -> Float
 absX  n | n >= 0 = n 
