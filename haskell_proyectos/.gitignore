@@ -1,0 +1,24 @@
+# Haskell
+*.o
+*.hi
+*.dyn_o
+*.dyn_hi
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# VS Code
+.vscode/
+
+# Temporales de compilación de LaTeX
+**/subcarpetas_si_hubiera/
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.toc
+*.pdf

@@ -1,0 +1,50 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage[margin=2.5cm]{geometry}
+
+% Paquetes matemáticos
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+% Paquete de código (Indispensable para que compile)
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    backgroundcolor=\color{gray!5},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    tabsize=2
+}
+
+\title{Prueba de Entorno Exactas}
+\author{Walter Fregenal}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+Si esto compila bien, el entorno local de \LaTeX{} en Ubuntu está perfectamente integrado con VS Code.
+
+\section{Demostración Matemática}
+Una ecuación integrada en el texto: $e^{i\pi} + 1 = 0$.
+
+Y una ecuación destacada:
+\begin{equation}
+    f(x) = \int_{-\infty}^{\infty} \hat{f}(\xi)\,e^{2\pi i \xi x}\,d\xi
+\end{equation}
+
+\section{Prueba de Snippets}
+A partir de la línea de abajo podés probar tus atajos mágicos:
+\begin{lstlisting}[language=Haskell, caption=${:Descripción}]
+main = putStrLn "Hello, World!"
+\end{lstlisting}
+\end{document}
+
