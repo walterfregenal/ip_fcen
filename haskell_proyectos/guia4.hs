@@ -113,3 +113,13 @@ todosDigitosIguales :: Integer -> Bool
 todosDigitosIguales n |  cantidadDigitos n == 1 = False
                       |  cantidadDigitos n == 2 = mod n 10 == mod (div n 10) 10
                       |  otherwise = (mod n 10 == mod (div n 10) 10) && todosDigitosIguales (div n 10)
+---
+--problema sumaDigitos (n: Z) : Z {
+--requiere: { n ≥ 0 }
+--asegura: {res = n si cantidadDigitos = 1, primer digito de n, sumado a sumaDigitos (n / 10) en otro caso}
+--}
+sumaDigitos :: Integer -> Integer
+sumaDigitos n | cantidadDigitos n == 1 = n
+              | otherwise = digitoIesimo n 1 + sumaDigitos (div n 10)
+-----
+
