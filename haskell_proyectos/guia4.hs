@@ -122,4 +122,42 @@ sumaDigitos :: Integer -> Integer
 sumaDigitos n | cantidadDigitos n == 1 = n
               | otherwise = digitoIesimo n 1 + sumaDigitos (div n 10)
 -----
+---problema esCapicua (n: Z) : Bool{
+--- requiere: { n ≥ 0}
+--- asegura: {res = true si en el caso que n tiene longitud uno o que los digitos de los extremos de hacia el interior son iguales, false en otro caso}
+---}
+esCapicua :: Integer -> Bool
+esCapicua n =  extremos 1 (cantidadDigitos n) 
+        where extremos i j | i >= j = True -- contempla caso n tiene numero impar de digitos, y cuando se cruzan los indices de los digitos
+                           | otherwise = (digitoIesimo n i == digitoIesimo n j) && extremos (i + 1) (j - 1) 
+----
+--problema f2n (n,q: Z) : Z {
+-- requiere: { n ≥ 0 }
+-- asegura: {res = 1 si q = 0, o suma n^i para i de 1 a q } 
+---}
+f2n :: Integer -> Integer-> Integer
+f2n n 0 = 1
+f2n n q = n^q + f2n n (q - 1)
+----
+---problem eulerN (n: Z) : R {
+--- requiere: {n ≥ 0}
+--- asegura: {res = 1 + 1/1! + 1/2  + ... + 1/n!}
+---}
 
+eulerN :: Integer -> Float
+eulerN 0 = 1
+eulerN n = (1 / fromIntegral (factorial n)) + eulerN (n - 1)
+---
+e :: Float
+e = eulerN 10 
+---  
+aN :: Integer -> Float
+aN 1 = 2.0
+aN n = 2.0 + (1.0 / aN (n - 1))
+--
+raizDe2N :: Int ->Float
+raizDe2N n = (aN (fromIntegral n)) - 1.0
+---
+raizDe2 :: Float
+raizDe2 = raizDe2N 10
+-----
