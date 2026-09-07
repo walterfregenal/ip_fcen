@@ -1,7 +1,32 @@
+---problema longitud (s:seq<Z>):Z{
+-- requiere: {True}
+-- asegura: {res = longitud(s)}
+--}
 ---
 longitud :: [Int] -> Int
 longitud [] = 0
 longitud (x:xs) = 1 + longitud xs
+---
+---problema ultimo (s:seq<Z>):Z{
+-- requiere: {|s| > 0}
+-- asegura: {res = s[|s| - 1]}
+---}
+---
+ultimo :: [Int] -> Int
+ultimo [x] = x
+ultimo (x:xs) = ultimo xs
+---
+---problema principio (s: seq⟨T ⟩) : seq⟨T ⟩ {
+---requiere: { |s| > 0 }
+--- asegura: { resultado = subseq(s, 0, |s| − 1) }
+--}
+principio :: [Int] -> [Int]
+principio [x] = []
+principio (x:xs) = x : principio xs  --- la lista es una subsecuencia de la lista original sin el último elemento
+---
+reverso :: [Int] -> [Int]
+reverso [] = []
+reverso (x:xs) = reverso xs ++ [x]  -- concatena la lista reversa de xs con el elemento x al final
 ---
 sumaLista :: [Int] -> Int
 sumaLista [] = 0
