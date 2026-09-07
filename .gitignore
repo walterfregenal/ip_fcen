@@ -1,14 +1,41 @@
-# Haskell
-*.o
+# ==========================================
+# 1. ESPECÍFICO DE HASKELL / GHC
+# ==========================================
+.stack-work/
+dist-newstyle/
 *.hi
-*.dyn_o
+*.o
 *.dyn_hi
+*.dyn_o
 
-# Python
+# ==========================================
+# 2. ESPECÍFICO DE PYTHON (Si usás entornos virtuales)
+# ==========================================
 .venv/
 __pycache__/
-*.pyc
+*.py[cod]
 .pytest_cache/
 
-# VS Code
+# ==========================================
+# 3. ESPECÍFICO DE LATEX (Para tus informes/enunciados)
+# ==========================================
+# Archivos auxiliares en cualquier subcarpeta
+**/*.aux
+**/*.fdb_latexmk
+**/*.fls
+**/*.log
+**/*.synctex.gz
+**/*.toc
+**/*.blg
+**/*.bbl
+**/*.out
+
+# Opcional: Descomentá la línea de abajo si NO querés subir el PDF final a Git
+# *.pdf
+
+# ==========================================
+# 4. CONFIGURACIONES DEL EDITOR Y SISTEMA
+# ==========================================
 .vscode/
+.DS_Store
+
