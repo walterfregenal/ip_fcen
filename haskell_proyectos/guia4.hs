@@ -186,7 +186,19 @@ sumaPotencias q n m = sumaPotenciasAux q n m + sumaPotencias q (n-1) m -- CORREG
 sumaPotenciasAux :: Integer -> Integer -> Integer -> Integer
 sumaPotenciasAux q n 0 = 0  -- Caso base: cuando m llega a 0, termina este ciclo interno
 sumaPotenciasAux q n m = q^(n+m) + sumaPotenciasAux q n (m-1)
-
+---
+--problema sumaRacionales (n : N,  : N) : R {
+--requiere: { True}
+--asegura: { resultado = suma i = 1 hasta n de la suma de 1 hasta m de i/j }
+--}
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales 0 _ = 0
+sumaRacionales n m = sumaRacionalesAux n m  + sumaRacionales (n-1) m
+--
+sumaRacionalesAux :: Integer -> Integer -> Float
+sumaRacionalesAux n 1 = fromIntegral n
+sumaRacionalesAux n m = (fromIntegral n / fromIntegral m) + sumaRacionalesAux n (m-1)
+--
 ---
 --problema esPrimo (n:Z):Bool{
 --    requiere : {n>=1}
