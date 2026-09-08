@@ -56,16 +56,26 @@ sumaPares x | x == 0 = 0
             | mod x 2 == 0 = x + sumaPares (x-2)
             | otherwise = sumaPares (x-1)
 ----
---- Suma de potencias::
--- Suma los exponentes j de 1 a n para una base fija i: (i^n + i^(n-1) + ... + i^1)
+--problema sumaExponentes (n: Z, m: Z) : Z {
+--requiere: { i ≥ 0, m ≥ 0 }
+--asegura: { res = Suma los exponentes j de m a 1 para una base fija i: (i^n + i^(n-1) + ... + i^1)
+--}
+---
 sumaExponentes :: Integer -> Integer -> Integer
-sumaExponentes _ 0 = 0
+sumaExponentes 0 _ = 0
+sumaExponentes i 0 = 1
 sumaExponentes i j = i^j + sumaExponentes i (j - 1)
 ---
--- Suma las bases i de 1 a m
-sumaPotencias :: Integer -> Integer -> Integer
-sumaPotencias 0 _ = 0
-sumaPotencias m n = sumaExponentes m n + sumaPotencias (m - 1) n
+-- problema sumaPotenciasnm ( n: Z, m: Z) : Z {
+-- requiere: { n ≥ 0, m ≥ 0 }
+-- asegura: {res = suma i de 1 a n de lasuma de j de 1 a m (i^j)}
+sumaPotenciasnm :: Integer -> Integer -> Integer
+sumaPotenciasnm 0 _ = 0
+sumaPotenciasnm n m = sumaPotenciasnmAux n m  + sumaPotenciasnm (n-1) m
+
+sumaPotenciasnmAux :: Integer -> Integer -> Integer
+sumaPotenciasnmAux _ 0 = 1
+sumaPotenciasnmAux n m = n^m + sumaPotenciasnmAux n (m-1)
 ---
 -- problema factorial (n: Z) : Z {
 -- requiere: { n ≥ 0 }
@@ -161,3 +171,73 @@ raizDe2N n = (aN (fromIntegral n)) - 1.0
 raizDe2 :: Float
 raizDe2 = raizDe2N 10
 -----
+--- problema menorDivisor 
+menorDivisor :: Integer -> Integer
+menorDivisor n = menorDivisorDesde n 2
+
+menorDivisorDesde :: Integer -> Integer -> Integer
+menorDivisorDesde m k  | mod m k == 0 = k        --- caso base
+                       | otherwise = menorDivisorDesde m (k+1)
+---
+sumaPotencias :: Integer -> Integer -> Integer -> Integer
+sumaPotencias q 0 m = 0  -- Caso base: cuando n llega a 0, la suma de este ciclo termina
+sumaPotencias q n m = sumaPotenciasAux q n m + sumaPotencias q (n-1) m -- CORREGIDO: Se agregó 'm' al final
+
+sumaPotenciasAux :: Integer -> Integer -> Integer -> Integer
+sumaPotenciasAux q n 0 = 0  -- Caso base: cuando m llega a 0, termina este ciclo interno
+sumaPotenciasAux q n m = q^(n+m) + sumaPotenciasAux q n (m-1)
+---
+--problema sumaRacionales (n : N,  : N) : R {
+--requiere: { True}
+--asegura: { resultado = suma i = 1 hasta n de la suma de 1 hasta m de i/j }
+--}
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales 0 _ = 0
+sumaRacionales n m = sumaRacionalesAux n m  + sumaRacionales (n-1) m
+--
+sumaRacionalesAux :: Integer -> Integer -> Float
+sumaRacionalesAux n 1 = fromIntegral n
+sumaRacionalesAux n m = (fromIntegral n / fromIntegral m) + sumaRacionalesAux n (m-1)
+--
+---
+--problema esPrimo (n:Z):Bool{
+--    requiere : {n>=1}
+--    asegura  : { res = True si no existe un divisor menor que n, False en caso contrario }
+--}
+esPrimo :: Integer -> Bool
+esPrimo 1 = False
+esPrimo n | n > 2 && menorDivisorDesde n 2 /=n = False
+          | otherwise = True
+---
+esPrimo2 ::Integer -> Bool
+esPrimo2 n = n>1 && menorDivisor n == n
+----
+--problema nEsimoPrimo (n:Z): Z{
+--    requiere : {n>=1}
+--    asegura  : { esPrimo(res) y res pertenece a los n primeros primos}
+--}
+nEsimoPrimo :: Integer -> Integer
+nEsimoPrimo 1 = 2
+nEsimoPrimo n = siguientePrimoDesde (nEsimoPrimo (n-1) + 1)
+---
+---
+siguientePrimoDesde :: Integer -> Integer
+siguientePrimoDesde n | (esPrimo n) = n
+                      | otherwise = siguientePrimoDesde (n + 1)
+
+--problema esSumaInicialDePrimos (n: Z) : B {
+--requiere: { n ≥ 0 }
+--asegura: { resultado = true ↔ n es igual a la suma de los m primeros numeros primos, para algun m.}
+--}
+esSumaInicialDePrimos :: Integer -> Bool
+esSumaInicialDePrimos 0 = True
+esSumaInicialDePrimos n = esSumaPrimerosKPrimos 1 n 
+
+esSumaPrimerosKPrimos :: Integer -> Integer -> Bool
+esSumaPrimerosKPrimos k n | (sumaKprimos k == n) = True
+                          | (sumaKprimos k > n) = False
+                          | otherwise = esSumaPrimerosKPrimos (k+1) n
+---
+sumaKprimos :: Integer -> Integer
+sumaKprimos i | i == 0 = 0
+              | otherwise = nEsimoPrimo i + sumaKprimos (i-1)
