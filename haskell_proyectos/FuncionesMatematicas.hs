@@ -1,4 +1,5 @@
----GUIA 4: Funciones recursivas
+module FuncionesMatematicas where
+---Guia4: Funciones recursivas
 
 --problema fibonacci (n: Z) : Z {
 --requiere: { n ≥ 0 }
