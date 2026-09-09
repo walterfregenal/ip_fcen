@@ -1,3 +1,4 @@
+module FuncionesListas where
 ---problema longitud (s:seq<Z>):Z{
 -- requiere: {True}
 -- asegura: {res = longitud(s)}
@@ -28,11 +29,12 @@ reverso :: [Int] -> [Int]
 reverso [] = []
 reverso (x:xs) = reverso xs ++ [x]  -- concatena la lista reversa de xs con el elemento x al final
 ---
-sumatoria:: [Int] -> Int
-sumatoria [] = 0
-sumatoria (x:xs) = x + sumatoria xs
 
+sumatoria :: [Int] -> Int
+sumatoria []     = 0
+sumatoria (x:xs) = x + sumatoria xs
 ----
+
 ---problema productoria (s: seq⟨Z⟩) : Z {
 --requiere: { True }
 --asegura : { res = producto de los elementos s  }
@@ -52,6 +54,7 @@ maximo [x] = x
 maximo (x:xs) | x > maximo xs = x
               | otherwise = maximo xs
 ----
+
 --problema sumarN (n: Z, s: seq⟨Z⟩) : seq⟨Z⟩ {
 --requiere: { True }
 --asegura: {|res| = |s| ∧ cada pos de res contiene el valor que hay en esa posicion en s sumado n}
@@ -60,6 +63,7 @@ sumarN :: Int -> [Int] -> [Int]
 sumarN n [] = []
 sumarN n (x:xs) = (x+n) : sumarN n xs
 ---
+
 --problema sumarElPrimero (s: seq⟨Z⟩) : seq⟨Z⟩ {
 --requiere: { |s| > 0 }
 --asegura: {resultado = sumarN(s[0], s) }
@@ -75,7 +79,16 @@ sumarElPrimero (x:xs) = sumarN x (x:xs)
 sumarElUltimo :: [Int] -> [Int]
 sumarElUltimo [] = []
 sumarElUltimo xs = sumarN (ultimo xs) xs
------
+----
+--problema pares (s: seq⟨Z⟩) : seq⟨Z⟩ {
+--requiere: { True }
+--asegura: {res elementos pares de s en el orden dado, respeta repeticiones}
+--}
+pares :: [Int] -> [Int]
+pares [] = []
+pares (x:xs) | mod x 2 == 0 = x : pares xs      
+             | otherwise = pares xs
+----
 
 ---problema ordenar (s: seq⟨Z⟩) : seq⟨Z⟩ {
 --- requiere: { True }
@@ -91,18 +104,8 @@ ordenar :: [Int] ->[Int]
 ordenar [] = []
 ordenar (x:xs) = insertar x  (ordenar xs)
 ----
------
 
---problema pares (s: seq⟨Z⟩) : seq⟨Z⟩ {
---requiere: { True }
---asegura: {res elementos pares de s en el orden dado, respeta repeticiones}
---}
-pares :: [Int] -> [Int]
-pares [] = []
-pares (x:xs) | mod x 2 == 0 = x : pares xs      
-             | otherwise = pares xs
 ----
-
 pertenece :: [Int] -> Int -> Bool
 pertenece [] _ = False
 pertenece (x:xs) n |  x == n  = True
