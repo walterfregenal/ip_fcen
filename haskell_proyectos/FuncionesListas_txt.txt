@@ -292,16 +292,3 @@ aparicionesEnFila _ [] = 0
 aparicionesEnFila e (x:xs) | e == x  = 1 + aparicionesEnFila e xs
                            | otherwise = aparicionesEnFila e xs
 ----
-----
---problema iesimaFila (i: Z, m: seq⟨seq⟨T⟩⟩) : seq⟨T⟩ {
---requiere: { |m| > 0 }
---requiere: { |m[0]| > 0 }
---requiere: { Todos los elementos de la secuencia m tienen la misma longitud }
---requiere: { 0 ≤ i < |m| }
---asegura: { |resultado| = |m[i]| }
---asegura: { Para todo 0 <= j < |m[i]|, resultado[j] = m[i][j] }
---}
-iesimaFila::  Integer -> [[t]] -> [t]
-iesimaFila _ [] = []
-iesimaFila i (x:xs) | i == 0  = x
-                    | otherwise = iesimaFila (i-1) xs 
