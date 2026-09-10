@@ -1,12 +1,74 @@
 module FuncionesListas where
+
+ --- Funciones Universales para LISTAS
+
 ---problema longitud (s:seq<Z>):Z{
 -- requiere: {True}
 -- asegura: {res = longitud(s)}
 --}
 ---
-longitud :: [Int] -> Int
+
+longitud :: (Eq t , Num t) => [t] -> t
 longitud [] = 0
 longitud (x:xs) = 1 + longitud xs
+---
+-----
+sonTodosIguales :: (Eq a) => [a] -> Bool
+sonTodosIguales [] = True
+sonTodosIguales [_] = True
+sonTodosIguales (x:y:ys) | x == y = sonTodosIguales (y:ys)
+                         | x /= y = False
+-----
+--problema todosDistintos (s: seq⟨T⟩) : B {
+--requiere: { True }
+--asegura: { resultado = false ↔ existen dos posiciones distintas de s con igual valor }
+--}
+-- Función auxiliar para saber si un elemento está en la lista
+pertenece :: Eq t => t -> [t] -> Bool
+pertenece _ [] = False
+pertenece e (x:xs) 
+  | e == x    = True
+  | otherwise = pertenece e xs
+
+-- Función principal que cumple con la especificación
+todosDistintos :: Eq t => [t] -> Bool
+todosDistintos [] = True
+todosDistintos (x:xs)  | pertenece x xs == True = False
+                       | otherwise      = todosDistintos xs
+----
+----
+
+-- problema quitar (e: T , s: seq< T >): seq<T> {
+-- requiere : {True}
+-- asegura : {res = lista a la que removi el primer elemento 'e' que aparece  en s, caso contrario s}
+--} 
+quitar :: (Eq t) => t -> [t] -> [t]
+quitar _ [] = []
+quitar e (x:xs) | e == x = xs 
+                | otherwise = x : quitar e (xs)
+
+-- problema quitarRepetidos (e: T , s: seq< T >): seq<T> {
+-- requiere : {True}
+-- asegura : {res = lista a la que remueve los elemento 'e' que aparecen  en s, caso contrario s}
+--} 
+quitarRepetidos :: (Eq t) => t -> [t] -> [t]
+quitarRepetidos _ [] = []
+quitarRepetidos e (x:xs) | e /= x = x : quitarRepetidos e (xs)
+                         | otherwise = quitarRepetidos e (xs)
+----
+-- Operaciones con LISTAS NUMERICAS
+---
+--problema maximo (s: seq⟨Z⟩) : Z {
+--requiere: { |s| > 0 } -- me olvido de que pasen lista vacia
+--asegura: { resultado ∈ s ∧ todo elemento de s es menor o igual a resultado }
+---}
+maximo :: [Int] -> Int
+maximo [x] = x
+maximo (x:xs)  | x >= m    = x 
+               | otherwise = m
+                where m = maximo xs
+
+---
 ---
 ---problema ultimo (s:seq<Z>):Z{
 -- requiere: {|s| > 0}
@@ -29,30 +91,6 @@ reverso :: [Int] -> [Int]
 reverso [] = []
 reverso (x:xs) = reverso xs ++ [x]  -- concatena la lista reversa de xs con el elemento x al final
 ---
-
-sumatoria :: [Int] -> Int
-sumatoria []     = 0
-sumatoria (x:xs) = x + sumatoria xs
-----
-
----problema productoria (s: seq⟨Z⟩) : Z {
---requiere: { True }
---asegura : { res = producto de los elementos s  }
----}
-productoria :: [Int] -> Int
-productoria [] = 1
-productoria (0:_) = 0
-productoria (x:xs) = x * productoria(xs)
----
-----
---problema maximo (s: seq⟨Z⟩) : Z {
---requiere: { |s| > 0 }
---asegura: { resultado ∈ s ∧ todo elemento de s es menor o igual a resultado }
----}
-maximo :: [Int] -> Int
-maximo [x] = x
-maximo (x:xs) | x > maximo xs = x
-              | otherwise = maximo xs
 ----
 
 --problema sumarN (n: Z, s: seq⟨Z⟩) : seq⟨Z⟩ {
@@ -90,6 +128,22 @@ pares (x:xs) | mod x 2 == 0 = x : pares xs
              | otherwise = pares xs
 ----
 
+sumatoria :: [Int] -> Int
+sumatoria []     = 0
+sumatoria (x:xs) = x + sumatoria xs
+----
+
+---problema productoria (s: seq⟨Z⟩) : Z {
+--requiere: { True }
+--asegura : { res = producto de los elementos s  }
+---}
+productoria :: [Int] -> Int
+productoria [] = 1
+productoria (0:_) = 0
+productoria (x:xs) = x * productoria(xs)
+---
+---
+
 ---problema ordenar (s: seq⟨Z⟩) : seq⟨Z⟩ {
 --- requiere: { True }
 --- asegura: {res lista de longitud |s| pero con elementos s[i] < s[1 +1]}
@@ -104,17 +158,17 @@ ordenar :: [Int] ->[Int]
 ordenar [] = []
 ordenar (x:xs) = insertar x  (ordenar xs)
 ----
+---problema ordenar (s: seq⟨Z⟩) : seq⟨Z⟩ {
+--- requiere: { True }
+--- asegura: {res lista de longitud |s| pero con elementos s[i] < s[1 +1]}
+--}
 
-----
-pertenece :: [Int] -> Int -> Bool
-pertenece [] _ = False
-pertenece (x:xs) n |  x == n  = True
-                   | otherwise = pertenece (xs) n
-                  
-------
-longitud2 :: [Char] -> Int
-longitud2 [] = 0
-longitud2 (x:xs) = 1 + longitud2 xs
+---
+ordenar2 :: [Int] -> [Int]
+ordenar2 [] = []
+ordenar2 l =  ordenar2 (quitar (maximo l) l) ++ [maximo l]
+-------
+-- Funciones auxiliares para TRIM de un texto
 ------
 borraEspRep :: [Char] -> [Char]
 borraEspRep [] = []
@@ -127,11 +181,18 @@ sacarEspacioInicio [] = []
 sacarEspacioInicio (x:xs) | x == ' ' = xs
                           | otherwise = x : xs
 --
+-- Función auxiliar: verifica si una lista tiene únicamente espacios
+todoEspacios :: [Char] -> Bool
+todoEspacios [] = True
+todoEspacios (x:xs) = (x == ' ') && todoEspacios xs
 
+-- Función principal para borrar espacios al final
 borraEspFin :: [Char] -> [Char]
 borraEspFin [] = []
-borraEspFin (x:xs) | longitud2 xs == 0 && x == ' ' = []
-                   | otherwise = x : borraEspFin xs
+borraEspFin (x:xs) 
+  | x == ' ' && todoEspacios xs = borraEspFin xs -- Si es espacio y lo que sigue son solo espacios, lo descartamos
+  | otherwise = x : borraEspFin xs -- Si no, lo conservamos y seguimos
+
 ---
 borraPuntuacion :: [Char] -> [Char]
 borraPuntuacion [] = []
@@ -142,6 +203,7 @@ trimCadena2 :: [Char] -> [Char]
 trimCadena2 [] = []
 trimCadena2 xs = sacarEspacioInicio (borraEspFin (borraEspRep (borraPuntuacion xs)))
 ---
+--- Funciones AUX para contar palabras
 ---
 contarEsp :: [Char] -> Int
 contarEsp [] = 0
@@ -155,3 +217,29 @@ contarPalabras xs = contarLimpia (trimCadena2 xs)
   where
     contarLimpia [] = 0
     contarLimpia limpia = contarEsp limpia + 1
+
+-----
+--Uso de listas para emplear en AGENDA TELEFONICA --
+
+type Texto = [Char]
+type Nombre = Texto
+type Telefono = Texto
+type Contacto = (Nombre, Telefono)
+type ContactosTel = [Contacto]
+
+----
+enLosContactos :: Nombre -> ContactosTel -> Bool
+enLosContactos _ [] = False
+enLosContactos n ((nombre, telefono):xs) 
+  | n == nombre || enLosContactos n xs = True
+  | otherwise = False
+
+---                                        
+agregarContacto :: Contacto -> ContactosTel -> ContactosTel
+agregarContacto c [] = [c]
+agregarContacto (n_nuevo, t_nuevo) ((n, t):xs) 
+  | n_nuevo == n = (n, t_nuevo) : xs
+  | otherwise    = (n, t) : agregarContacto (n_nuevo, t_nuevo) xs
+
+
+----
