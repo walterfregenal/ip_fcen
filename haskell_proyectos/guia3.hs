@@ -176,3 +176,5 @@ enelMismoIntervalo a b | (a <= 3 && b <= 3) = True
     --}  
 f6 :: Float -> Int -> Bool
 f6 a b = truncate a == b
+
+-----

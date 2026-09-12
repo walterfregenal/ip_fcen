@@ -149,6 +149,16 @@ f2n :: Integer -> Integer-> Integer
 f2n n 0 = 1
 f2n n q = n^q + f2n n (q - 1)
 ----
+--problema f3 (n:Z , q:R): R{
+-- requiere: {n > 0 }
+-- asegura : { res = sumaroria de i=1 hasta 2n de q^i}
+--}
+f3 :: Integer -> Float -> Float
+f3 _ 0 = 0
+f3 1 q = q
+f3 n q = q^(2*n) + f3 (n-1) q
+
+----
 ---problem eulerN (n: Z) : R {
 --- requiere: {n ≥ 0}
 --- asegura: {res = 1 + 1/1! + 1/2  + ... + 1/n!}
