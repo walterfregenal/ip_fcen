@@ -46,7 +46,7 @@ sumaNotasMaterias (x:xs) = snd x + sumaNotasMaterias xs
 --type CalificacionesDelDC = [(Alumno, Cursada)]
 ---
 listaMayorCalificacion :: Alumno -> CalificacionesDelDC -> [Materia]
-listaMayorCalificacion  _ [] = []
+listaMayorCalificacion  _ [] = [] -- caso base
 listaMayorCalificacion alumno (x:xs)
     | alumno == fst x = listaMaterias (snd x) 
     | otherwise = listaMayorCalificacion alumno xs
@@ -59,8 +59,8 @@ listaMaterias (x:xs)
     where mayor = mayorNota (x:xs)
 -- Aux
 mayorNota :: Cursada -> Float
-mayorNota [] = 0.0
-mayorNota [x] = snd x
+mayorNota [] = 0.0  -- caso base
+mayorNota [x] = snd x -- caso base : unico elemento
 mayorNota (x:xs) 
     | snd x > mayorNota xs = snd x
     | otherwise = mayorNota xs
