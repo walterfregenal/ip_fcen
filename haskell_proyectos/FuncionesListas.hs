@@ -87,10 +87,16 @@ principio :: [Int] -> [Int]
 principio [x] = []
 principio (x:xs) = x : principio xs  --- la lista es una subsecuencia de la lista original sin el último elemento
 ---
-reverso :: [Int] -> [Int]
-reverso [] = []
-reverso (x:xs) = reverso xs ++ [x]  -- concatena la lista reversa de xs con el elemento x al final
+
+capicuaCh ::  [Char] -> Bool
+capicuaCh [] = False
+capicuaCh l = l == reversoCh l 
 ---
+--Aux 
+reversoCh :: [Char] -> [Char]
+reversoCh [] = []
+reversoCh (x:xs) = reversoCh xs ++ [x]  -- concatena la lista reversa de xs con el elemento x al final
+---      
 ----
 
 --problema sumarN (n: Z, s: seq⟨Z⟩) : seq⟨Z⟩ {
@@ -143,26 +149,11 @@ productoria (0:_) = 0
 productoria (x:xs) = x * productoria(xs)
 ---
 ---
-
----problema ordenar (s: seq⟨Z⟩) : seq⟨Z⟩ {
---- requiere: { True }
---- asegura: {res lista de longitud |s| pero con elementos s[i] < s[1 +1]}
---}
-insertar :: Int -> [Int] -> [Int]
-insertar x [] = [x]  -- También es válido escribir x:[]
-insertar x (y:ys) 
-  | x <= y    = x : y : ys
-  | otherwise = y : insertar x ys
----
-ordenar :: [Int] ->[Int]
-ordenar [] = []
-ordenar (x:xs) = insertar x  (ordenar xs)
 ----
 ---problema ordenar (s: seq⟨Z⟩) : seq⟨Z⟩ {
 --- requiere: { True }
 --- asegura: {res lista de longitud |s| pero con elementos s[i] < s[1 +1]}
 --}
-
 ---
 ordenar2 :: [Int] -> [Int]
 ordenar2 [] = []
@@ -277,21 +268,6 @@ sumaUnaFila [c] = c
 sumaUnaFila (x:xs) = x + sumaUnaFila xs
 ---
 ---
---problema cantidadDeApariciones (e: Z, m: seq⟨seq⟨Z⟩⟩) : Z {
---requiere: { |m| > 0 }
---requiere: { |m[0]| > 0 }
---requiere: { Todos los elementos de la secuencia m tienen la misma longitud }
---asegura: { resultado =  sumatoria de i=0 a |m|-1 de sumatoria de j = 0 a |m[i]|-1 de 1 si  m[i] [j] = e , 0 en caso contrario}
---}
-cantidadDeApariciones :: Integer -> [[Integer]] -> Integer
-cantidadDeApariciones _ [] = 0
-cantidadDeApariciones e (x:xs) = aparicionesEnFila e x + cantidadDeApariciones e xs
-
-aparicionesEnFila :: Integer -> [Integer] -> Integer
-aparicionesEnFila _ [] = 0
-aparicionesEnFila e (x:xs) | e == x  = 1 + aparicionesEnFila e xs
-                           | otherwise = aparicionesEnFila e xs
-----
 ----
 --problema iesimaFila (i: Z, m: seq⟨seq⟨T⟩⟩) : seq⟨T⟩ {
 --requiere: { |m| > 0 }
@@ -305,3 +281,28 @@ iesimaFila::  Integer -> [[t]] -> [t]
 iesimaFila _ [] = []
 iesimaFila i (x:xs) | i == 0  = x
                     | otherwise = iesimaFila (i-1) xs 
+---
+--- CANTIDAD DE APARICIONES de "e" en la matriz cuadrada "m".
+--problema cantidadDeApariciones (e: Z, m: seq⟨<seq⟨Z⟩⟩) : Z {
+-- requiere: { |m| > 0 }
+--requiere: { |m[0]| > 0 }
+-- requiere: { Todos los elementos de la secuencia m tienen la misma longitud }
+-- asegura: { resultado = cantidad de apariciones de e en m }
+--}
+cantidadDeApariciones :: Integer -> [[Integer]] -> Integer
+cantidadDeApariciones _ [] = 0
+cantidadDeApariciones e (x:xs) = aparicionesN e x + cantidadDeApariciones e xs
+--
+-- Aux: Obtiene el numero de apariciones de e en la cadena
+-- problema aparicionesN (e :Z , m:seq<Z>): Z{
+-- requiere: { True }
+-- asegura : { res = numero de apariciones de e en la lista}
+--} 
+aparicionesN :: Integer -> [Integer] -> Integer
+aparicionesN _ [] = 0
+aparicionesN e (x:xs) 
+    | e == x = 1 + aparicionesN e xs
+    | otherwise = aparicionesN e xs
+---
+--- Elemento de prueba : matrix3x3 = [[1,2,3],[3,4,5],[5,6,7]]
+----

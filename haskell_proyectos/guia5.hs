@@ -1,9 +1,10 @@
----problema longitud (s:seq<Z>):Z{
+--Aux : Calcula la longitud de una cadena 
+---problema longitud (s:seq<T>):Z{
 -- requiere: {True}
 -- asegura: {res = longitud(s)}
 --}
----
-longitud :: [Int] -> Int
+--
+longitud :: [t] -> Integer
 longitud [] = 0
 longitud (x:xs) = 1 + longitud xs
 ---
@@ -152,3 +153,29 @@ contarPalabras xs = contarLimpia (trimCadena2 xs)
   where
     contarLimpia [] = 0
     contarLimpia limpia = contarEsp limpia + 1
+
+--- Matrices
+--- CANTIDAD DE APARICIONES de "e" en la matriz cuadrada "m".
+--problema cantidadDeApariciones (e: Z, m: seq⟨<seq⟨Z⟩⟩) : Z {
+-- requiere: { |m| > 0 }
+--requiere: { |m[0]| > 0 }
+-- requiere: { Todos los elementos de la secuencia m tienen la misma longitud }
+-- asegura: { resultado = cantidad de apariciones de e en m }
+--}
+cantidadDeApariciones :: Integer -> [[Integer]] -> Integer
+cantidadDeApariciones _ [] = 0
+cantidadDeApariciones e (x:xs) = aparicionesN e x + cantidadDeApariciones e xs
+--
+-- Aux: Obtiene el numero de apariciones de e en la cadena
+-- problema aparicionesN (e :Z , m:seq<Z>): Z{
+-- requiere: { True }
+-- asegura : { res = numero de apariciones de e en la lista}
+--} 
+aparicionesN :: Integer -> [Integer] -> Integer
+aparicionesN _ [] = 0
+aparicionesN e (x:xs) 
+    | e == x = 1 + aparicionesN e xs
+    | otherwise = aparicionesN e xs
+---
+---# Elemento de prueba : matrix3x3 = [[1,2,3],[3,4,5],[5,6,7]]
+----

@@ -98,24 +98,43 @@ medioFactorial 0 = 1
 medioFactorial 1 = 1
 medioFactorial n = n * medioFactorial (n - 2)
 ----
+---problema esCapicua (n: z) : Bool{
+--- requiere: { n ≥ 0}
+--- asegura: {res = true si n = reverso de n}
+---}
+esCapicua :: Integer -> Bool
+esCapicua 0 = True
+esCapicua n
+        | n == reversoN n = True
+        | otherwise = False
+--Aux
+reversoN :: Integer -> Integer 
+reversoN n = reversoAux n (cantidadDigitos n - 1)
+---
+-- Aux 
+reversoAux :: Integer -> Integer -> Integer
+reversoAux n i | i < 0 = 0
+               | otherwise = digitoIesimo n i *(10^(cantidadDigitos n -1 - i)) + reversoAux n ( i-1)
+----
+--Aux
 --- problema cantidadDigitos (n: Z) : Z {
 -- requiere: { n ≥ 0 }
 -- asegura: {res = 1 si n < 10, 1 + cantidadDigitos(n/10) si n ≥ 10}
 --}
-----
 cantidadDigitos :: Integer -> Integer
-cantidadDigitos n | n < 10 = 1
-                    | otherwise = 1 + cantidadDigitos (div n 10)
-----
+cantidadDigitos n | n < 10 = 1 
+                  | otherwise = 1 + cantidadDigitos (div n 10) 
+ ---                
+--Aux
 -- problema digitoIesimo (n: Z, i: Z) : Z {
 -- requiere: { n ≥ 0, i ≥ 1, i ≤ cantidadDigitos(n) }
 -- asegura: {res = digito i-ésimo de n, contando desde i = 1 para el dígito más a la derecha}
 --}
 digitoIesimo :: Integer -> Integer -> Integer
-digitoIesimo n i | n >= 0 && i == 1 = mod n 10                      
-                    | n>=0 && i>=1 &&i<= cantidadDigitos(n) = digitoIesimo (div n 10) (i - 1)
-                    | otherwise = error " ## i debe ser mayor o igual a 1 y menor o igual a la cantidad de dígitos de n ###"
+digitoIesimo n i  = mod (div n (10^i)) 10
+                 
 ---
+
 -- problema todosDigitosIguales (n: Z) : Bool {
 -- requiere: { n ≥ 0 }
 -- asegura: {res = true si todos los dígitos de n son iguales, false en caso contrario}
@@ -133,14 +152,8 @@ sumaDigitos :: Integer -> Integer
 sumaDigitos n | cantidadDigitos n == 1 = n
               | otherwise = digitoIesimo n 1 + sumaDigitos (div n 10)
 -----
----problema esCapicua (n: Z) : Bool{
---- requiere: { n ≥ 0}
---- asegura: {res = true si en el caso que n tiene longitud uno o que los digitos de los extremos de hacia el interior son iguales, false en otro caso}
----}
-esCapicua :: Integer -> Bool
-esCapicua n =  extremos 1 (cantidadDigitos n) 
-        where extremos i j | i >= j = True -- contempla caso n tiene numero impar de digitos, y cuando se cruzan los indices de los digitos
-                           | otherwise = (digitoIesimo n i == digitoIesimo n j) && extremos (i + 1) (j - 1) 
+
+       
 ----
 --problema f2n (n,q: Z) : Z {
 -- requiere: { n ≥ 0 }
