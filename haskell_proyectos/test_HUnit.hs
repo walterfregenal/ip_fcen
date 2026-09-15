@@ -1,4 +1,5 @@
 import Guia2
+import PruebaFunciones
 import Test.HUnit
 
 testSuiteMayorNota = [
@@ -6,4 +7,11 @@ testSuiteMayorNota = [
   "Caso 1: unico elemento" ~: (mayorNota [("Algebra", 8.0)]) ~?= 8.0
   ]
 
-correrTest = runTestTT (TestList testSuiteMayorNota)
+testSuiteordenarLista = [
+  "Caso base : lista vacia" ~:(ordenarLista []) ~?= [],
+  "Caso 1: unico elemento" ~:(ordenarLista [1]) ~?= [1],
+  "Caso 2: lista decreciente" ~:(ordenarLista [6,5,4,3,(-1)]) ~?= [(-1),3,4,5,6] 
+  ]
+
+testSuiteesCapicuaN
+correrTest = runTestTT (TestList testSuiteordenarLista)

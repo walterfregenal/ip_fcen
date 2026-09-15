@@ -98,27 +98,42 @@ medioFactorial 0 = 1
 medioFactorial 1 = 1
 medioFactorial n = n * medioFactorial (n - 2)
 ----
+-- problema esCapicua (n : N) : B {
+-- requiere : { n>0 }
+-- asegura : {res = True si res = reverso de n , False en caso contrario}
+--}
+esCapicua :: Integer -> Bool
+esCapicua  n 
+    | n == reversoN n = True
+    | otherwise = False
+--aux : obtiene el reverso de un numero entero 
+reversoN :: Integer -> Integer
+reversoN n = reversoAux n (cantidadDigitos n - 1)
+--
+--aux : para obtener la cantidad de digitos de un entero
 --- problema cantidadDigitos (n: Z) : Z {
 -- requiere: { n ≥ 0 }
 -- asegura: {res = 1 si n < 10, 1 + cantidadDigitos(n/10) si n ≥ 10}
 --}
-----
 cantidadDigitos :: Integer -> Integer
-cantidadDigitos n | n < 10 = 1
-                    | otherwise = 1 + cantidadDigitos (div n 10)
-----
+cantidadDigitos n 
+    | n < 10 = 1
+    | otherwise = 1 + cantidadDigitos (div n 10)
+--aux : para obtener la posicion i
 -- problema digitoIesimo (n: Z, i: Z) : Z {
--- requiere: { n ≥ 0, i ≥ 1, i ≤ cantidadDigitos(n) }
--- asegura: {res = digito i-ésimo de n, contando desde i = 1 para el dígito más a la derecha}
+-- requiere: { n > 0, i ≥ 0, i ≤ cantidadDigitos(n) -1 }
+-- asegura: {res = digito i-ésimo de n, contando desde i = 0 para el dígito más a la derecha}
 --}
 digitoIesimo :: Integer -> Integer -> Integer
-digitoIesimo n i | n >= 0 && i == 1 = mod n 10                      
-                    | n>=0 && i>=1 &&i<= cantidadDigitos(n) = digitoIesimo (div n 10) (i - 1)
-                    | otherwise = error " ## i debe ser mayor o igual a 1 y menor o igual a la cantidad de dígitos de n ###"
+digitoIesimo n i =  mod (div n (10^i)) 10
+--aux :auxiliar para funcion reverso ->> construye de izq a der el reverso de n utilizando sumas y potencias de 10  
+reversoAux :: Integer -> Integer -> Integer
+reversoAux n 0 = (digitoIesimo n 0)  * (10 ^ (cantidadDigitos n - 1)) -- caso base
+reversoAux n i = (digitoIesimo n i) * (10 ^ (cantidadDigitos n - 1 - i)) + reversoAux n (i - 1)
 ---
--- problema todosDigitosIguales (n: Z) : Bool {
--- requiere: { n ≥ 0 }
--- asegura: {res = true si todos los dígitos de n son iguales, false en caso contrario}
+-- problema todosDiditosIguales (n : Z) : B {
+-- requere : { n>=0 }
+-- asegura : { res = False si n es de un digito o n tiene al menos dos digitos contiguos que son distintos, True en caso contrario}  
 --}
 todosDigitosIguales :: Integer -> Bool
 todosDigitosIguales n |  cantidadDigitos n == 1 = False
@@ -131,17 +146,37 @@ todosDigitosIguales n |  cantidadDigitos n == 1 = False
 --}
 sumaDigitos :: Integer -> Integer
 sumaDigitos n | cantidadDigitos n == 1 = n
-              | otherwise = digitoIesimo n 1 + sumaDigitos (div n 10)
+              | otherwise = digitoIesimo n 0 + sumaDigitos (div n 10)
 -----
----problema esCapicua (n: Z) : Bool{
---- requiere: { n ≥ 0}
---- asegura: {res = true si en el caso que n tiene longitud uno o que los digitos de los extremos de hacia el interior son iguales, false en otro caso}
----}
-esCapicua :: Integer -> Bool
-esCapicua n =  extremos 1 (cantidadDigitos n) 
-        where extremos i j | i >= j = True -- contempla caso n tiene numero impar de digitos, y cuando se cruzan los indices de los digitos
-                           | otherwise = (digitoIesimo n i == digitoIesimo n j) && extremos (i + 1) (j - 1) 
-----
+
+---problema ordenarLista (s: seq<Z>): seq<Z>{
+-- requiere : {|s| > 0 }
+-- requiere : { s no tiene elemento repetidos}
+-- asegura: { res = lista ordenada donde para todo i < j  s[i] < s[j]}
+-- asegura : { |res| = | s |}
+--}
+ordenarLista :: [Integer] -> [Integer]
+ordenarLista [] = []
+ordenarLista [x] = [x]
+ordenarLista (xs) = ordenarLista (quitarElemento xs maximo) ++ [maximo]
+        where maximo = maximoLista (xs)
+--Aux
+longitudLista :: [t]-> Integer
+longitudLista [] = 0
+longitudLista (x:xs) = 1 + longitudLista (xs)
+--Aux
+maximoLista :: [Integer] -> Integer
+maximoLista [x] = x
+maximoLista (x:xs)
+        | x > maximoLista xs = x
+        | otherwise = maximoLista xs
+--Aux
+quitarElemento :: [Integer] -> Integer -> [Integer]
+quitarElemento [] _ = []
+quitarElemento (x:xs) e
+        | x == e = xs 
+        | otherwise = x : quitarElemento xs e
+
 --problema f2n (n,q: Z) : Z {
 -- requiere: { n ≥ 0 }
 -- asegura: {res = 1 si q = 0, o suma n^i para i de 1 a q } 
