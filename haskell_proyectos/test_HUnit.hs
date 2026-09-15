@@ -1,19 +1,9 @@
-import FuncionesMatematicas
-import FuncionesListas
-
-
+import Guia2
 import Test.HUnit
 
--- Tu función a testear (pegada al margen)
-dobleX :: Int -> Int
-dobleX x = x * 2
-
--- Las pruebas unitarias (pegada al margen, sin espacios antes de 'testSuiteDobleX')
-testSuiteDobleX = test [
-    "casoCero"     ~: (dobleX 0) ~?= 0,
-    "casoPositivo" ~: (dobleX 2) ~?= 4,
-    "casoNegativo" ~: (dobleX (-2)) ~?= (-4)
+testSuiteMayorNota = [
+  "Caso base: lista vacia" ~: (mayorNota []) ~?= 0.0,
+  "Caso 1: unico elemento" ~: (mayorNota [("Algebra", 8.0)]) ~?= 8.0
   ]
 
--- Corre todas las pruebas (pegada al margen)
-correrTest = runTestTT testSuiteDobleX
+correrTest = runTestTT (TestList testSuiteMayorNota)

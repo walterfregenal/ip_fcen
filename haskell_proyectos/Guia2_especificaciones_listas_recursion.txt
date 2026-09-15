@@ -1,14 +1,13 @@
-module Guia2 where
 import FuncionesMatematicas
 import FuncionesListas
 
--- ## Ejercicio Guia 2 que emplea Listas , funciones de Listas  y recursion ##
+--  Ejercicio Guia 2 que emplea Listas , funciones de Listas  y recursion 
 --Renombre Alumno = String
 --Renombre Materia = String
 --Renombre Cursada = seq⟨Materia × R⟩
 --Renombre CalificacionesDelDC = seq⟨Alumno × Cursada⟩
 ---
--- problema promedioDeAlumno (alumno: Alumno, calificaciones: CalificacionesDelDC ) : R
+-- problema promedioDeAlumno (alumno: Alumno, calificaciones: CalificacionesDelDC ) : R{
 -- requiere : {|alumno|= m > 0 y no hay nombres duplicados}
 -- asegura : {res = el promedio de las notas que obtuvo el alumno en cada materia cursada}
 --}

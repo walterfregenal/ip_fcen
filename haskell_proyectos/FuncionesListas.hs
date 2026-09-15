@@ -87,7 +87,10 @@ principio :: [Int] -> [Int]
 principio [x] = []
 principio (x:xs) = x : principio xs  --- la lista es una subsecuencia de la lista original sin el último elemento
 ---
-
+--problema capicuaCh (s: seq<Char>) : B{
+-- requiere : { True }
+-- asegura : { res = True , si la lista s = reverso s, False en caso contrario}
+--}
 capicuaCh ::  [Char] -> Bool
 capicuaCh [] = False
 capicuaCh l = l == reversoCh l 
