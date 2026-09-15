@@ -2,15 +2,15 @@ module FuncionesListas where
 
  --- Funciones Universales para LISTAS
 
----problema longitud (s:seq<Z>):Z{
+---problema longitud (s:seq<T>):Z{
 -- requiere: {True}
 -- asegura: {res = longitud(s)}
 --}
 ---
 
-longitud :: (Eq t , Num t) => [t] -> t
+longitud ::  [t] -> Integer
 longitud [] = 0
-longitud (x:xs) = 1 + longitud xs
+longitud (_:xs) = 1 + longitud xs
 ---
 -----
 sonTodosIguales :: (Eq a) => [a] -> Bool
