@@ -300,3 +300,52 @@ esFibonacciAux2 :: Integer -> Integer -> Bool
 esFibonacciAux2  n b | fibonacci b == n = True
                      | fibonacci b > n = False
                      | otherwise = esFibonacciAux2 n (b + 1)
+
+-- f1 : renombrada a cantidadAbundantesEnRango
+-- problema cantidadAbundantesEnRango (d: Z,h: Z) : Z {
+-- requiere: {0 < d ≤ h}
+-- asegura: {res es la cantidad de números abundantes en el rango [d..h]}
+--}
+
+cantidadAbundantesEnRango :: Integer -> Integer -> Integer
+cantidadAbundantesEnRango 1 1 = 0
+cantidadAbundantesEnRango d h = sumaAbundantes (rangoN d h)
+--
+--aux
+rangoN :: Integer -> Integer -> [Integer]
+rangoN 1 1 = [1]
+rangoN d h 
+    | h > d = rangoN d (h-1) ++ [h]
+    | otherwise = [d]
+--
+--aux : cuento la cantidad de numeros abundantes dentro de la lista
+sumaAbundantes :: [Integer] -> Integer
+sumaAbundantes [] = 0
+sumaAbundantes (x:xs) 
+    | abundanteN x = 1 + sumaAbundantes xs
+    | otherwise = sumaAbundantes xs
+--
+-- aux : True si el numero n es abundante   
+abundanteN :: Integer -> Bool
+abundanteN 1 = False
+abundanteN n
+    | sumaLista (divisoresPropios n) > n = True
+    | otherwise = False
+--
+--aux  : Suma los elementos de la lista
+sumaLista :: [Integer] -> Integer
+sumaLista [] = 0
+sumaLista (x:xs) = x + sumaLista xs
+--
+--aux : Lista de divisores propios de n
+divisoresPropios :: Integer -> [Integer]
+divisoresPropios 1 = []
+divisoresPropios n = divisoresDesde n (n-1)
+-- 
+--aux : Lista de divisores de n desde un indice  
+divisoresDesde :: Integer ->  Integer -> [Integer]
+divisoresDesde _ 0 = []
+divisoresDesde n i 
+    | mod n i == 0 = [i] ++ divisoresDesde n (i-1)  
+    | otherwise = divisoresDesde n (i-1)  
+---

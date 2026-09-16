@@ -23,5 +23,17 @@ testSuitecapicuaCh = [
   "Caso 2: string capicua " ~:(capicuaCh "pepeepep") ~?= True
   ]
 
-todosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista ]
+testSuiteabuntantesenRango :: Test
+testSuiteabuntantesenRango = test [
+  -- Categoría: Caso borde (mínimo valor permitido por el requiere: d = 1, h = 1)
+  "caso_base_unitario" ~: cantidadAbundantesEnRango 1 1 ~?= 0,
+
+  -- Categoría: Rango sin números abundantes (del 1 al 6)
+  "rango_sin_abundantes" ~: cantidadAbundantesEnRango  1 6 ~?= 0,
+
+  -- Categoría: Rango con presencia de números abundantes  [12..24])
+  "rango_con_abundante"  ~: cantidadAbundantesEnRango  12 24 ~?= 4
+  ]
+
+todosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]
 correrTest = runTestTT todosLosTest
