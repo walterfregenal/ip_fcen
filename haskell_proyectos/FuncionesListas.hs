@@ -36,7 +36,6 @@ todosDistintos [] = True
 todosDistintos (x:xs)  | pertenece x xs == True = False
                        | otherwise      = todosDistintos xs
 ----
-----
 
 -- problema quitar (e: T , s: seq< T >): seq<T> {
 -- requiere : {True}

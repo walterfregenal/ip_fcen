@@ -29,6 +29,34 @@ reverso :: [Int] -> [Int]
 reverso [] = []
 reverso (x:xs) = reverso xs ++ [x]  -- concatena la lista reversa de xs con el elemento x al final
 ---
+---problema ordenarLista (s: seq<Z>): seq<Z>{
+-- requiere : {|s| > 0 }
+-- requiere : { s no tiene elemento repetidos}
+-- asegura: { res = lista ordenada donde para todo i < j  s[i] < s[j]}
+-- asegura : { |res| = | s |}
+--}
+ordenarLista :: [Integer] -> [Integer]
+ordenarLista [] = []
+ordenarLista [x] = [x]
+ordenarLista (xs) = ordenarLista (quitarElemento xs maximo) ++ [maximo]
+        where maximo = maximoLista (xs)
+--Aux
+longitudLista :: [t]-> Integer
+longitudLista [] = 0
+longitudLista (x:xs) = 1 + longitudLista (xs)
+--Aux
+maximoLista :: [Integer] -> Integer
+maximoLista [x] = x
+maximoLista (x:xs)
+        | x > maximoLista xs = x
+        | otherwise = maximoLista xs
+--Aux
+quitarElemento :: [Integer] -> Integer -> [Integer]
+quitarElemento [] _ = []
+quitarElemento (x:xs) e
+        | x == e = xs 
+        | otherwise = x : quitarElemento xs e
+---
 sumatoria:: [Int] -> Int
 sumatoria [] = 0
 sumatoria (x:xs) = x + sumatoria xs
@@ -82,15 +110,7 @@ sumarElUltimo xs = sumarN (ultimo xs) xs
 --- requiere: { True }
 --- asegura: {res lista de longitud |s| pero con elementos s[i] < s[1 +1]}
 --}
-insertar :: Int -> [Int] -> [Int]
-insertar x [] = [x]  -- También es válido escribir x:[]
-insertar x (y:ys) 
-  | x <= y    = x : y : ys
-  | otherwise = y : insertar x ys
----
-ordenar :: [Int] ->[Int]
-ordenar [] = []
-ordenar (x:xs) = insertar x  (ordenar xs)
+
 ----
 -----
 
@@ -108,11 +128,7 @@ pertenece :: [Int] -> Int -> Bool
 pertenece [] _ = False
 pertenece (x:xs) n |  x == n  = True
                    | otherwise = pertenece (xs) n
-                  
-------
-longitud2 :: [Char] -> Int
-longitud2 [] = 0
-longitud2 (x:xs) = 1 + longitud2 xs
+                
 ------
 borraEspRep :: [Char] -> [Char]
 borraEspRep [] = []

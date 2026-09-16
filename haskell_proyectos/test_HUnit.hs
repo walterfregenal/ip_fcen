@@ -1,11 +1,7 @@
-import Guia2
-import PruebaFunciones
+import FuncionesListas
+import FuncionesMatematicas
 import Test.HUnit
 
-testSuiteMayorNota = [
-  "Caso base: lista vacia" ~: (mayorNota []) ~?= 0.0,
-  "Caso 1: unico elemento" ~: (mayorNota [("Algebra", 8.0)]) ~?= 8.0
-  ]
 
 testSuiteordenarLista = [
   "Caso base : lista vacia" ~:(ordenarLista []) ~?= [],
@@ -13,5 +9,11 @@ testSuiteordenarLista = [
   "Caso 2: lista decreciente" ~:(ordenarLista [6,5,4,3,(-1)]) ~?= [(-1),3,4,5,6] 
   ]
 
-testSuiteesCapicuaN
-correrTest = runTestTT (TestList testSuiteordenarLista)
+
+testSuiteesCapicua = [
+  "Caso base : cero" ~:(esCapicua 0) ~?= True,
+  "Caso 1 : numero tres cifras no capicua " ~:(esCapicua 123) ~?= False,
+  "Caso 2 : numero cuatro cifras  capicua " ~:(esCapicua 4114) ~?= True
+  ]
+
+correrTest = runTestTT (TestList testSuiteesCapicua)
