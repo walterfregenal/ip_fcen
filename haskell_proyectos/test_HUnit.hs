@@ -16,4 +16,12 @@ testSuiteesCapicua = [
   "Caso 2 : numero cuatro cifras  capicua " ~:(esCapicua 4114) ~?= True
   ]
 
-correrTest = runTestTT (TestList testSuiteesCapicua)
+
+testSuitecapicuaCh = [
+  "Caso base: un elemento" ~:(capicuaCh "x") ~?= True,
+  "Caso 1: string no capicua " ~:(capicuaCh "osa") ~?= False,
+  "Caso 2: string capicua " ~:(capicuaCh "pepeepep") ~?= True
+  ]
+
+todosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista ]
+correrTest = runTestTT todosLosTest

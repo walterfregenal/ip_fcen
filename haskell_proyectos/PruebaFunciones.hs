@@ -1,11 +1,11 @@
 module PruebaFunciones where
 
--- Recibimos el listado de tuplas (película, anio), 
---y queremos devolver un listado de películas agrupadas por año
--- (es decir, en una tupla de la forma (Año, [Título])).
-
-listaPorAnio :: [(String, Integer)] -> [(Integer, [String])]
-listaPorAnio [] = []
-listaPorAnio ((pelicula, anio):xs) = agregarPelicula pelicula anio (listaPorAnio xs)
+--Implementar la funcion generarStock :: [String] -> [(String, Int)]
+--problema generarStock (mercaderia: seq⟨String⟩) : seq⟨String × Z⟩ {
+--requiere: {True}
+--asegura: { La longitud de res es igual a la cantidad de productos distintos que hay en mercaderia}
+--asegura: {Para cada producto que pertenece a mercaderia existe un i tal que 0 ≤ i < |res| y res[i]0=producto y res[i]1 es igual a la cantidad
+--            de veces que aparece producto en mercaderia}
+--}
 
 
