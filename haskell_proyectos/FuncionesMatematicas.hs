@@ -365,3 +365,38 @@ tomarHastaNegativoContope (x:xs) n
     | x < 0 = []
     | x >= n = n : tomarHastaNegativoContope xs n
     | otherwise = x : tomarHastaNegativoContope xs n
+
+----
+-- renombra f4 : matrizCantParesColumna
+--problema f4 (matriz: seq⟨seq⟨Z⟩⟩, col: Z) : Z{
+--requiere: {Todos los elementos de la secuencia matriz tienen la misma longitud}
+--requiere: {|matriz| > 0}
+--requiere: {|matriz[0]| > 0}
+--requiere: {1 ≤ col ≤ |matriz[0]| }
+--asegura: {res es la cantidad de números pares de los elementos matriz[i][col-1] para todo i tal que 0 ≤ i < |matriz| }
+--}
+--Ejemplo: f4 [[-9,8,2,3],[2,7,-5,3],[-1,0,5,6]] 2 debe devolver 2
+--
+matrizCantParesColumna :: [[Integer]] -> Integer -> Integer
+matrizCantParesColumna [] _ = 0
+matrizCantParesColumna  (x:xs) c = cuentaPares (armoLista (x:xs) (c-1)) 
+
+armoLista :: [[Integer]] -> Integer -> [Integer]
+armoLista [] _ = []
+armoLista (x:xs) i = iesimoElem x i : armoLista xs i 
+
+longitud :: [Integer] -> Integer
+longitud [] = 0
+longitud (x:xs) = 1 + longitud xs
+
+cuentaPares :: [Integer] -> Integer
+cuentaPares [] = 0
+cuentaPares (x:xs)
+    | mod x 2 == 0 = 1 + cuentaPares xs
+    | otherwise = cuentaPares xs
+
+iesimoElem  :: [Integer] -> Integer -> Integer
+iesimoElem (x:xs) 0 = x
+iesimoElem (x:xs) i
+    | (longitud (x:xs) -1) >= i  = iesimoElem xs (i-1)
+    | otherwise = x     

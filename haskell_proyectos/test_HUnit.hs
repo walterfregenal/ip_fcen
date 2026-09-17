@@ -66,5 +66,14 @@ testSuitetomarHastaNegativoContope = test [
   "caso_2" ~: tomarHastaNegativoContope listaZneg 3 ~?= []
   ]
 
-todosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]
-correrTest = runTestTT todosLosTest
+--Ejemplo: f4 [[-9,8,2,3],[2,7,-5,3],[-1,0,5,6]] 2 debe devolver 2
+--
+testSuitematrizCantParesColumna :: Test
+listaMatrix =  [[-9,8,2,3],[2,7,-5,3],[-1,0,5,6]]
+testSuitematrizCantParesColumna = test [
+  -- Categoría: con lista de numeros enteros y un negativo
+  "caso_base" ~: matrizCantParesColumna listaMatrix 2 ~?= 2
+  ]
+
+testodosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]
+correrTest = runTestTT testodosLosTest
