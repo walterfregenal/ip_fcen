@@ -27,10 +27,8 @@ testSuiteabuntantesenRango :: Test
 testSuiteabuntantesenRango = test [
   -- Categoría: Caso borde (mínimo valor permitido por el requiere: d = 1, h = 1)
   "caso_base_unitario" ~: cantidadAbundantesEnRango 1 1 ~?= 0,
-
   -- Categoría: Rango sin números abundantes (del 1 al 6)
   "rango_sin_abundantes" ~: cantidadAbundantesEnRango  1 6 ~?= 0,
-
   -- Categoría: Rango con presencia de números abundantes  [12..24])
   "rango_con_abundante"  ~: cantidadAbundantesEnRango  12 24 ~?= 4
   ]
@@ -50,6 +48,22 @@ testlistaMateriascursadasVencidas = test [
   "caso_dos_elementos" ~: listaMateriascursadasVencidas lista2 ~?= ["Algoritmos y Estructuras de Datos I"],
   -- Categoría: Caso un elemrnto y res con un elemento
   "caso_cinco_elementos" ~: listaMateriascursadasVencidas lista5 ~?= ["Sociedades","Fisica A","Algebra A"]
+  ]
+
+
+--  ejemplo : f3 [3,8,5,0,7,-2,4] 5 debe devolver [3,5,5,0,5]
+---
+testSuitetomarHastaNegativoContope :: Test
+listaZ0 = []
+listaZ = [3,8,5,0,7,-2,4] 
+listaZneg = [-2,4] 
+testSuitetomarHastaNegativoContope = test [
+  -- Categoría: con lista de numeros enteros y un negativo
+  "caso_base" ~: tomarHastaNegativoContope listaZ0 5 ~?= [],
+  -- Categoría: con lista de numeros enteros y un negativo
+  "caso_7" ~: tomarHastaNegativoContope listaZ 5 ~?= [3,5,5,0,5],
+  -- Catgoría: con lista de numeros enteros y un negativo
+  "caso_2" ~: tomarHastaNegativoContope listaZneg 3 ~?= []
   ]
 
 todosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]

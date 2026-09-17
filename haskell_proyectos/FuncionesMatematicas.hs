@@ -349,3 +349,19 @@ divisoresDesde n i
     | mod n i == 0 = [i] ++ divisoresDesde n (i-1)  
     | otherwise = divisoresDesde n (i-1)  
 ---
+----
+-- tomarHastaNegativoContope (f3)
+--problema f3 (s: seq⟨Z⟩, u: Z) : seq⟨Z⟩ {
+--requiere: {u > 0}
+--asegura: { La longitud de res es igual a la cantidad de elementos no negativos consecutivos desde el inicio de s }
+--asegura: {Para cualquier i en el rango 0 ≤ i < |res| tal que 0 ≤ s[i] ≤ u, se cumple que res[i] = s[i]}
+--asegura: {Para cualquier i en el rango 0 ≤ i < |res| tal que s[i] > u, se cumple que res[i] = u}
+--}
+--  ejemplo : f3 [3,8,5,0,7,-2,4] 5 debe devolver [3,5,5,0,5]
+---
+tomarHastaNegativoContope :: [Integer] -> Integer -> [Integer]
+tomarHastaNegativoContope [] _ = []
+tomarHastaNegativoContope (x:xs) n
+    | x < 0 = []
+    | x >= n = n : tomarHastaNegativoContope xs n
+    | otherwise = x : tomarHastaNegativoContope xs n
