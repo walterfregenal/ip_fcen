@@ -308,3 +308,42 @@ aparicionesN e (x:xs)
 ---
 --- Elemento de prueba : matrix3x3 = [[1,2,3],[3,4,5],[5,6,7]]
 ----
+--listaMateriascursadasVencidas(f2): dada una lista de cursadas devuelva aquellas materias cuya aprobación de la cursada ya venció, y por lo tanto ya no se puede rendir el final
+--problema f2 (s: seq⟨String x Z x Z⟩) :seq⟨String⟩ {
+--requiere: { s[i]1 ≥ 1993 para todo i tal que 0 ≤ i < |s|}
+--requiere: { 0 ≤ s[i]2 ≤ 2 para todo i tal que 0 ≤ i < |s|}
+--asegura: { res no tiene elementos repetidos}
+--asegura: { res contiene los nombres de todas las materias incluídas en s tales que la materia fue aprobada a más tardar en el primer cuatrimestre de 2021, inclusive}
+--asegura: { res contiene solamente los nombres de las materias incluídas en s tales que la materia fue aprobada a más tardar en el primer cuatrimestre de 2021, inclusive}
+--}
+
+
+listaMateriascursadasVencidas :: [([Char],Integer,Integer)] -> [[Char]]
+listaMateriascursadasVencidas  [] = []
+listaMateriascursadasVencidas  (x:xs)
+    | vencioMateria x = agregarSinRepetir (elfst x) (listaMateriascursadasVencidas xs) 
+    | otherwise = listaMateriascursadasVencidas  xs
+-- Aux
+agregarSinRepetir :: [Char] ->  [[Char]] -> [[Char]]
+agregarSinRepetir materia [] = [materia]
+agregarSinRepetir materia (x:xs) 
+    | materia ==  x = (x:xs) -- si esta, no lo agrego
+    | otherwise = x : agregarSinRepetir materia xs -- verifico materia contra el resto de la lista xs
+
+--- Aux
+vencioMateria :: ([Char], Integer, Integer) -> Bool
+vencioMateria x
+    | elsnd x == 2021 && eltrd x == 1 = True 
+    | elsnd x == 2021 && eltrd x > 1 = False
+    | elsnd x > 2021 = False
+    | otherwise = True
+-- Aux : Tripla
+--
+elfst :: (a,b,c) -> a
+elfst (x,y,z) = x 
+--
+elsnd :: (a,b,c) -> b
+elsnd (x,y,z) = y 
+--
+eltrd :: (a,b,c) -> c
+eltrd (x,y,z) = z 

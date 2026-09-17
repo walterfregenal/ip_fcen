@@ -35,5 +35,22 @@ testSuiteabuntantesenRango = test [
   "rango_con_abundante"  ~: cantidadAbundantesEnRango  12 24 ~?= 4
   ]
 
+testlistaMateriascursadasVencidas :: Test
+lista0 = [("Analisis 1",2021,2)]
+lista1 = [("Algebra A",2021,1)]
+lista2 = [("Algoritmos y Estructuras de Datos I", 2020, 2), ("Algoritmos y Estructuras de Datos II", 2022, 1)]
+lista5 = [("Algebra A",2021,1),("Fisica A",2020,2),("Analisis 1",2021,2),("Qumica Gral",2022,1),("Sociedades",1998,2)]
+
+testlistaMateriascursadasVencidas = test [
+  -- Categoría: Caso un elemento y res [] 
+  "caso_base_unitario" ~: listaMateriascursadasVencidas lista0 ~?= [],
+  -- Categoría: Caso un elemrnto y res con un elemento
+  "caso_unitario" ~: listaMateriascursadasVencidas lista1 ~?= ["Algebra A"],
+  -- Categoría: Caso un elemrnto y res con un elemento
+  "caso_dos_elementos" ~: listaMateriascursadasVencidas lista2 ~?= ["Algoritmos y Estructuras de Datos I"],
+  -- Categoría: Caso un elemrnto y res con un elemento
+  "caso_cinco_elementos" ~: listaMateriascursadasVencidas lista5 ~?= ["Sociedades","Fisica A","Algebra A"]
+  ]
+
 todosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]
 correrTest = runTestTT todosLosTest
