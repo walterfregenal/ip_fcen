@@ -347,3 +347,62 @@ elsnd (x,y,z) = y
 --
 eltrd :: (a,b,c) -> c
 eltrd (x,y,z) = z 
+
+{-
+problema agrupoSeriesPorTemporada(s= seq < String x Z>) : seq < Z x seq <String> > {
+requiere: { |s| > 0}
+requiere: { s[i] != s[j] para todo i != j   } 
+asegura : { res = lista de tuplas agrupadas por numero de temporadas}
+}
+-}
+
+type Serie = [Char]
+type Temporadas = Integer 
+type SerieTup = (Serie, Temporadas)
+type TemporadasTup = (Integer, [Serie]) 
+agrupoSeriesPorTemporada :: [SerieTup] -> [TemporadasTup]
+agrupoSeriesPorTemporada [] = []
+agrupoSeriesPorTemporada ((serie,temporadas):xs) = 
+    agregarSerie2 serie temporadas (agrupoSeriesPorTemporada xs)
+--    
+-- Aux de agrupo Series por Temp
+agregarSerie2 :: Serie -> Temporadas ->  [TemporadasTup] -> [TemporadasTup]
+agregarSerie2 serie temporadas [] = [(temporadas, [serie])]
+agregarSerie2 serie temporadas ((numtemporadas, listaseries):xs) 
+  | temporadas == numtemporadas = (numtemporadas, listaseries ++ [serie]):xs 
+  | otherwise = (numtemporadas , listaseries) :agregarSerie2 serie temporadas xs 
+----
+-- COMPLEMENTARIA
+-- Funcion para ordenar en forma creciente la lista de TemporadasTup
+ordenoListaTup :: [TemporadasTup] -> [TemporadasTup]
+ordenoListaTup [] = []
+ordenoListaTup ((temporadas, listaseries) : xs) = 
+    ordenoListaTup (quitoMayor mayorTup ((temporadas, listaseries) : xs)) ++ [mayorTup]
+    where mayorTup = elMayor ((temporadas, listaseries) : xs)
+--Aux de Ordeno Lista
+elMayor :: [TemporadasTup] -> TemporadasTup
+elMayor [x] = x
+elMayor ((temporadas, listaseries) : xs) 
+    | temporadas > fst (elMayor xs) = (temporadas, listaseries) 
+    | otherwise                     = elMayor xs
+
+quitoMayor :: TemporadasTup -> [TemporadasTup] -> [TemporadasTup]
+quitoMayor _ [] = []
+quitoMayor mayor (x:xs) 
+    | mayor == x = xs
+    | otherwise  = x : quitoMayor mayor xs
+    
+-- lista de pruebas :
+{-
+[ ("Breaking Bad", 5)
+, ("Game of Thrones", 8)
+, ("Better Call Saul", 6)
+, ("Succession", 4)
+, ("The Office US", 9)
+, ("Stranger Things", 5)
+, ("Mad Men", 7)
+, ("Bojack Horseman", 6)
+, ("Modern Family", 11)
+, ("The Crown", 6)
+]
+-}
