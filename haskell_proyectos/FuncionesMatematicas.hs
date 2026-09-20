@@ -96,6 +96,25 @@ sumaCuadradosPares n
 -- requiere: { n ≥ 0 }
 -- asegura: {res = 1 si n=0, n * productoria de i ,con i desde n-1 hasta 1, si n>0}
 --}
+{-
+EJERCICIO 1: Recursión sobre Enteros (2 Puntos)
+Escribir la función 
+sumaDigitosEnPosicionesPares :: Integer -> Integer que, dado un entero no negativo n, calcule la suma de los dígitos que ocupan
+posiciones pares (considerando la posición 0 como el dígito de las unidades, la posición 1 como las decenas, la posición 2 como las centenas, etc.).
+
+Especificación Formal:
+  problema sumaDigitosEnPosicionesPares (n : Z) : Z {
+    requiere: { n >= 0 }
+    asegura: { res = SUMA_{i=0}^{cantDigitos(n)-1} (if (i mod 2 = 0) then digitoEnPosicion(n, i) else 0) }
+  }
+-}
+sumaDigitosEnPosicionesPares :: Integer -> Integer
+sumaDigitosEnPosicionesPares 0 = 0
+sumaDigitosEnPosicionesPares n
+    | n < 10 = n
+    | otherwise = mod n 10 + sumaDigitosEnPosicionesPares (div n 100)
+
+
 ---
 factorial :: Integer -> Integer
 factorial 0 = 1

@@ -423,3 +423,54 @@ ghci> ordenoListaTup lista_tup
 ghci> 
 
 -}
+
+{-
+EJERCICIO 2: Recursión sobre Secuencias / Listas (2 Puntos)
+Escribir la función mismosElementos :: (Eq a) => [a] -> [a] -> Bool que determine si dos listas s1 y s2 contienen exactamente los mismos elementos,
+sin importar el orden ni la cantidad de repeticiones de los mismos.
+
+Especificación Formal:
+  problema mismosElementos (s1 : seq<T>, s2 : seq<T>) : Bool {
+    requiere: { True }
+    asegura: { (res = true) <-> ((FORALL x : T)(pertenece(x, s1) <-> pertenece(x, s2))) }
+  }
+
+-}
+
+mismosElementos :: (Eq a, Ord a) => [a] -> [a] -> Bool
+mismosElementos [] [] = True
+mismosElementos lista1 lista2 
+    | ordenarLista (quitarRepetidos lista1) == ordenarLista (quitarRepetidos lista2) = True
+    | otherwise = False
+---
+-- Aux
+quitarRepetidos ::  (Eq a) => [a] -> [a]
+quitarRepetidos [] = []
+quitarRepetidos (x:xs) 
+    | pertenece x xs = quitarRepetidos xs
+    | otherwise = x : quitarRepetidos xs
+-- Aux de quitarRepetidos
+pertenece :: (Eq a) => a -> [a] -> Bool
+pertenece _ [] = False
+pertenece e (x:xs) 
+    | e == x = True
+    | otherwise = pertenece e xs
+--Aux 
+ordenarLista :: (Eq a, Ord a) => [a] -> [a]
+ordenarLista [] = []
+ordenarLista (x:xs) = ordenarLista ( quitoElem mayor (x:xs)) ++ [mayor]
+    where mayor = elMayor (x:xs)
+----
+-- Aux de ordenarLista
+quitoElem :: (Eq a) => a -> [a] -> [a]
+quitoElem _ [] = []
+quitoElem e (x:xs) 
+    | e == x = xs
+    | otherwise = x: quitoElem e xs
+-- Aux de Ordenar Lista
+elMayor :: (Eq a , Ord a) => [a] -> a
+elMayor [] = error "Lista vacia no tiene mayor"
+elMayor [x] = x
+elMayor (x:xs) 
+    | x > elMayor xs = x
+    | otherwise = elMayor xs

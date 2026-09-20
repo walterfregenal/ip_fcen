@@ -101,5 +101,24 @@ testSuitesumoCuadrados = test [
     "Categoria 3: n igual a 5 (impar mayor)"   ~: sumaCuadradosPares 5 ~?= 20
   ]
 
+
+
+testSuiteSumaDigitos :: Test
+testSuiteSumaDigitos = test [
+    -- Categoría 1: El borde inferior
+    "Categoria 1: n igual a 0 (borde minimo)"             ~: sumaDigitosEnPosicionesPares 0 ~?= 0,
+
+    -- Categoría 2: Números de una sola cifra
+    "Categoria 2: n igual a 3 (una cifra, posicion par)"   ~: sumaDigitosEnPosicionesPares 3 ~?= 3,
+    "Categoria 2: n igual a 9 (una cifra impar)"           ~: sumaDigitosEnPosicionesPares 9 ~?= 9,
+
+    -- Categoría 3: Números de múltiples cifras (pares e impares en posiciones)
+    "Categoria 3: n igual a 10 (dos cifras, digito par en pos 0)"  ~: sumaDigitosEnPosicionesPares 10 ~?= 0,
+    "Categoria 3: n igual a 101 (tres cifras, suma posiciones)"     ~: sumaDigitosEnPosicionesPares 101 ~?= 2,
+    "Categoria 3: n igual a 987654321 (numero largo complejo)"      ~: sumaDigitosEnPosicionesPares 987654321 ~?= 25
+  ]
+
+
+
 testodosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]
 correrTest = runTestTT testodosLosTest
