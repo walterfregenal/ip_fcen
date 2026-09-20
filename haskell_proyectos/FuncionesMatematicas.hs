@@ -78,6 +78,20 @@ sumaPotenciasnmAux :: Integer -> Integer -> Integer
 sumaPotenciasnmAux _ 0 = 1
 sumaPotenciasnmAux n m = n^m + sumaPotenciasnmAux n (m-1)
 ---
+{-
+problema sumaCuadradosPares (n : Z) : Z {
+requiere :{ n > 0}
+asegura  :{Res = sumatoria ,desde i = 1 hasta i = n,  i^2  para los i que sean pares  }
+}
+-}
+
+sumaCuadradosPares :: Integer -> Integer
+sumaCuadradosPares 0 = 0
+sumaCuadradosPares 1 = 0
+sumaCuadradosPares n
+    | mod n 2 == 0 = n^2 + sumaCuadradosPares (n - 2)
+    | otherwise    = sumaCuadradosPares (n - 1)
+
 -- problema factorial (n: Z) : Z {
 -- requiere: { n ≥ 0 }
 -- asegura: {res = 1 si n=0, n * productoria de i ,con i desde n-1 hasta 1, si n>0}

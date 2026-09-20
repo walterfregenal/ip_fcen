@@ -92,14 +92,5 @@ testSuiteOrdenolistTup = test [
   ]
 
 
-testSuitesumoCuadrados :: Test
-testSuitesumoCuadrados = test [
-    "Categoría 1: El borde inferior n igual a 1 (minimo valido)" ~: sumaCuadradosPares 1 ~?= 0,
-    "Categoría 2: Números pares (n > 1)"    ~: sumaCuadradosPares 2 ~?= 4,
-    "Categoria 2 : n igual a 4 (par compuesto)" ~: sumaCuadradosPares 4 ~?= 20,
-    "Categoría 3: Números impares (n > 1) n igual a 3 (impar)"  ~: sumaCuadradosPares 3 ~?= 4,
-    "Categoria 3: n igual a 5 (impar mayor)"   ~: sumaCuadradosPares 5 ~?= 20
-  ]
-
 testodosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]
 correrTest = runTestTT testodosLosTest

@@ -385,7 +385,7 @@ elMayor [x] = x
 elMayor ((temporadas, listaseries) : xs) 
     | temporadas > fst (elMayor xs) = (temporadas, listaseries) 
     | otherwise                     = elMayor xs
-
+--Aux de Ordeno Lista
 quitoMayor :: TemporadasTup -> [TemporadasTup] -> [TemporadasTup]
 quitoMayor _ [] = []
 quitoMayor mayor (x:xs) 
@@ -405,4 +405,21 @@ quitoMayor mayor (x:xs)
 , ("Modern Family", 11)
 , ("The Crown", 6)
 ]
+-}
+-- resultados:
+{-
+ghci> listaprueba = [ ("Breaking Bad", 5) , ("Game of Thrones", 8),  ("Better Call Saul", 6) , ("Succession", 4) , ("The Office US", 9) , ("Stranger Things", 5) , ("Mad Men", 7) , ("Bojack Horseman", 6) , ("Modern Family", 11),("The Crown", 6)]
+ghci>                                                                                                                                                                                                                     
+ghci> agrupoSeriesPorTemporada listaprueba                                                                                                                                                                                
+[(6,["The Crown","Bojack Horseman","Better Call Saul"]),(11,["Modern Family"]),(7,["Mad Men"]),(5,["Stranger Things","Breaking Bad"]),(9,["The Office US"]),(4,["Succession"]),(8,["Game of Thrones"])]
+ghci> 
+ghci> lista_tup = agrupoSeriesPorTemporada listaprueba                                                                                                                                                                    
+ghci>                     
+ghci> lista_tup 
+[(6,["The Crown","Bojack Horseman","Better Call Saul"]),(11,["Modern Family"]),(7,["Mad Men"]),(5,["Stranger Things","Breaking Bad"]),(9,["The Office US"]),(4,["Succession"]),(8,["Game of Thrones"])]
+ghci>
+ghci> ordenoListaTup lista_tup 
+[(4,["Succession"]),(5,["Stranger Things","Breaking Bad"]),(6,["The Crown","Bojack Horseman","Better Call Saul"]),(7,["Mad Men"]),(8,["Game of Thrones"]),(9,["The Office US"]),(11,["Modern Family"])]
+ghci> 
+
 -}
