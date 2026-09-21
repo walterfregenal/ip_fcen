@@ -440,26 +440,26 @@ Especificación Formal:
 mismosElementos :: (Eq a, Ord a) => [a] -> [a] -> Bool
 mismosElementos [] [] = True
 mismosElementos lista1 lista2 
-    | ordenarLista (quitarRepetidos lista1) == ordenarLista (quitarRepetidos lista2) = True
+    | ordenarLista (quitarRepetidosEn lista1) == ordenarLista (quitarRepetidosEn lista2) = True
     | otherwise = False
 ---
 -- Aux
-quitarRepetidos ::  (Eq a) => [a] -> [a]
-quitarRepetidos [] = []
-quitarRepetidos (x:xs) 
-    | pertenece x xs = quitarRepetidos xs
-    | otherwise = x : quitarRepetidos xs
+quitarRepetidosEn ::  (Eq a) => [a] -> [a]
+quitarRepetidosEn [] = []
+quitarRepetidosEn (x:xs) 
+    | perteneceA x xs = quitarRepetidosEn xs
+    | otherwise = x : quitarRepetidosEn xs
 -- Aux de quitarRepetidos
-pertenece :: (Eq a) => a -> [a] -> Bool
-pertenece _ [] = False
-pertenece e (x:xs) 
+perteneceA :: (Eq a) => a -> [a] -> Bool
+perteneceA _ [] = False
+perteneceA e (x:xs) 
     | e == x = True
-    | otherwise = pertenece e xs
+    | otherwise = perteneceA e xs
 --Aux 
 ordenarLista :: (Eq a, Ord a) => [a] -> [a]
 ordenarLista [] = []
 ordenarLista (x:xs) = ordenarLista ( quitoElem mayor (x:xs)) ++ [mayor]
-    where mayor = elMayor (x:xs)
+    where mayor = elMayorElem (x:xs)
 ----
 -- Aux de ordenarLista
 quitoElem :: (Eq a) => a -> [a] -> [a]
@@ -468,9 +468,76 @@ quitoElem e (x:xs)
     | e == x = xs
     | otherwise = x: quitoElem e xs
 -- Aux de Ordenar Lista
-elMayor :: (Eq a , Ord a) => [a] -> a
-elMayor [] = error "Lista vacia no tiene mayor"
-elMayor [x] = x
-elMayor (x:xs) 
-    | x > elMayor xs = x
-    | otherwise = elMayor xs
+elMayorElem :: (Eq a , Ord a) => [a] -> a
+elMayorElem [] = error "Lista vacia no tiene mayor"
+elMayorElem [x] = x
+elMayorElem (x:xs) 
+    | x > elMayorElem xs = x
+    | otherwise = elMayorElem xs
+
+
+{-
+EJERCICIO 3: Estructuras Compuestas / Registros (2 Puntos)
+Un centro de estudiantes representa el registro de exámenes de alumnos mediante una lista de tuplas de tipo (String, [Integer]), 
+donde la primera componente es el nombre del estudiante y la segunda es su lista de notas recibidas.
+
+Escribir la función estudianteConMejorPromedio :: [(String, [Integer])] -> String
+que devuelva el nombre del estudiante con el promedio de notas más alto. En caso de empate en el promedio máximo, 
+debe devolver el nombre del primero que aparezca en el registro.
+
+Especificación Formal:
+  problema estudianteConMejorPromedio (registro : seq<String x seq<Z>>) : String {
+    requiere: { |registro| > 0 }
+    requiere: { Para todo (nombre, notas) en registro, |notas| > 0 }
+    requiere: { Para todo (nombre, notas) en registro e i en [0..|notas|-1], 1 <= notas[i] <= 10 }
+    asegura: { (EXISTS (n, ns) en registro)(n = res AND (FORALL (n', ns') en registro)(promedio(ns') <= promedio(ns))) }
+    asegura: { Si existen múltiples estudiantes con el mismo promedio máximo, res es el nombre del primero de ellos en aparecer en registro }
+  }
+
+
+-}
+
+type Alumno = [Char]
+type Notas = [Integer]
+type EstudianteTup = (Nombre, Notas)
+type RegistroNotas = [EstudianteTup]
+
+
+
+estudianteConMejorPromedio2 :: [(String, [Integer])] -> String
+estudianteConMejorPromedio2 [] = error " No cumple la precondicion : Lista vacia" 
+estudianteConMejorPromedio2 [x] = fst x
+estudianteConMejorPromedio2 ((nombre,notas):xs) = fst (auxiliarMejor xs (nombre, promedio))
+    where promedio =  promedioLista notas
+-- Idea conceptual: tener memoria del mejor alumno actual y su promedio mejor y solo reemplazarlo si hay otro alumno con mayor prom
+-- auxiliarMejor [estudiantes_restantes] (nombre_mejor_actual, promedio_mejor_actual)
+auxiliarMejor :: RegistroNotas -> (Alumno, Float) -> (Alumno, Float) 
+auxiliarMejor [] mejor = mejor
+auxiliarMejor ((nombre,notas):xs) (nombre_mejor_actual, promedio_mejor_actual) 
+    | promedio > promedio_mejor_actual = auxiliarMejor xs (nombre,promedio) 
+    | otherwise = auxiliarMejor xs (nombre_mejor_actual, promedio_mejor_actual) 
+    where promedio =  promedioLista notas
+
+-- Aux  promedioLista
+promedioLista :: Notas -> Float
+promedioLista [] = error "Lista vacia : tiene que proporcionar una nota"
+promedioLista notas = fromIntegral sumanotas / fromIntegral long 
+    where (sumanotas , long) = sumaElemyLongLista notas
+-- Aux de promedioLista
+sumaElemyLongLista :: [Integer] -> (Integer, Integer)
+sumaElemyLongLista [] = (0,0)
+sumaElemyLongLista (x:xs) = (x + sumaResto, 1 + longResto)
+    where (sumaResto, longResto) = sumaElemyLongLista xs
+
+{-
+Para prueba 
+ghci> estudianteConMejorPromedio2  [("Juan", [8, 9])]
+"Juan"
+ghci> estudianteConMejorPromedio2  [("Juan", [8, 9]), ("Ana", [6, 9]),("Walter",[4,8,9]), ("Pedro Alfonso",[10,10,10,9])]  
+"Pedro Alfonso"
+ghci> estudianteConMejorPromedio2  []                                                                                      
+"*** Exception:  No cumple la precondicion : Lista vacia
+CallStack (from HasCallStack):
+  error, called at PruebaFunciones.hs:32:34 in main:PruebaFunciones
+ghci> 
+-}
