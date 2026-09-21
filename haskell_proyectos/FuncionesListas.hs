@@ -541,3 +541,65 @@ CallStack (from HasCallStack):
   error, called at PruebaFunciones.hs:32:34 in main:PruebaFunciones
 ghci> 
 -}
+
+{-
+EJERCICIO 4: Recursión sobre Matrices / Listas Anidadas (2 Puntos)
+Dada una matriz de enteros m representada como una lista de listas [[Integer]],
+escribir la función filaConMasCeros :: [[Integer]] -> Integer que devuelva el
+índice (basado en 0) de la primera fila que contenga la mayor cantidad de ceros.
+
+Especificación Formal:
+  problema filaConMasCeros (m : seq<seq<Z>>) : Z {
+    requiere: { |m| > 0 }
+    requiere: { Para todo i en [0..|m|-1], |m[i]| > 0 }
+    requiere: { Todos los elementos de m tienen la misma longitud (matriz rectangular) }
+    asegura: { 0 <= res < |m| }
+    asegura: { Para todo k en [0..|m|-1], contarCeros(m[res]) >= contarCeros(m[k]) }
+    asegura: { Para todo k en [0..res-1], contarCeros(m[k]) < contarCeros(m[res]) }
+  }
+-}
+-- filaConMasCeros inicializa el torneo tomando la fila 0 como campeona inicial
+-- y arranca a recorrer el resto de las filas desde el índice 1.
+
+filasConMasCeros :: [[Integer]] -> Integer
+filasConMasCeros [] = error " Violacion del requiere :Lista Vacia"
+filasConMasCeros [x] = 0
+filasConMasCeros (x:xs) = fst (auxCerosResto headLista 1 xs) -- considero mi headLista como mi elemento campeon inicial con indice de maximo de ceros y numero de ceros 
+    where headLista = (0,cerosDe x)
+auxCerosResto:: (Integer,Integer) -> Integer -> [[Integer]] -> (Integer , Integer) -- hace falta el indice de recorrido para las filas del resto 
+auxCerosResto maximo _ [] = maximo -- con recursion debo tener una Base
+auxCerosResto (indMax, maxCeros) indice (y:ys) 
+    | maxCeros >= cerosY  = auxCerosResto (indMax, maxCeros) (indice + 1) ys
+    | otherwise = auxCerosResto (indice, cerosY ) (indice + 1 ) ys
+    where cerosY = cerosDe y
+
+cerosDe :: [Integer] -> Integer
+cerosDe [] = 0
+cerosDe (x:xs)
+    | x == 0 = 1 + cerosDe xs
+    | otherwise = cerosDe xs
+
+{- 
+Para la Prueba:
+ghci> matrix                                            
+[[1,2,3,0],[5,0,0,7],[8,0,9,9],[5,0,0,0]]
+ghci> filasConMasCeros matrix                           
+3
+ghci> matrix = [[1,2,3,0,6],[5,0,1,0,7],[0,0,0,0,0],[5,0,0,0,0],[4,0,2,0,0]] 
+ghci> matrix                                                                
+[[1,2,3,0,6],[5,0,1,0,7],[0,0,0,0,0],[5,0,0,0,0],[4,0,2,0,0]]
+ghci> filasConMasCeros matrix                                               
+2
+ghci> matrix = []            
+ghci> filasConMasCeros matrix
+*** Exception:  Violacion del requiere :Lista Vacia
+CallStack (from HasCallStack):
+  error, called at FuncionesListas.hs:565:23 in main:FuncionesListas
+ghci> 
+ghci> matrix = [[1,2,3,0,6,0]]                                              
+ghci> matrix                  
+[[1,2,3,0,6,0]]
+ghci> filasConMasCeros matrix 
+0
+ghci> 
+-}
