@@ -99,7 +99,7 @@ quitoElem (e,c) ((producto,cantidad):ys)
 
 esSimetrica :: [[Integer]] -> Bool
 esSimetrica matriz 
-    | matriz == auxTraspuesta 0 largo matriz = True
+    | matriz == auxTraspuesta 0 largo matriz = True -- aca solo comparamos m con (m)T , si son iguales entonces m es simetrica 
     | otherwise = False
     where largo = largoLista matriz
 
