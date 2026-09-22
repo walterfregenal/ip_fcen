@@ -50,7 +50,7 @@ generarStock (producto:xs) = contieneElementoIncremento producto (generarStock x
 contieneElementoIncremento :: Producto -> Stock -> Stock
 contieneElementoIncremento productoactual [] = [(productoactual, 1)]
 contieneElementoIncremento productoactual ((producto, cantidad):xs) 
-    | producto == productoactual = (producto, cantidad + 1) : xs   --- no hay repetidos en stock
+    | producto == productoactual = (producto, cantidad + 1) : xs   --- tener presente que no hay repetidos en stock
     | otherwise = (producto,cantidad):contieneElementoIncremento productoactual xs 
 
 
@@ -86,13 +86,8 @@ A modo de ejemplo, la siguiente figura muestra un tablero de 5 × 4 en el que el
 el numero 5 aparece en la posicion (4, 3). 
 
 Notar que tanto la numeracion de las filas como la de las columnas comienzan en 1.
-[
-[13, 12, 6, 4]
-[1, 1, 32, 25]
-[9, 2, 14, 7]
-[7, 3, 5, 16]
-[27, 2, 8, 18]
-]
+
+tablero = [[13, 12, 6, 4], [1, 1, 32, 25],[9, 2, 14, 7],[7, 3, 5, 16], [27, 2, 8, 18]]
 
 Un camino en un tablero esta dado por una secuencia de posiciones adyacentes en la que solo es posible desplazarse desde una posicion dada 
 hacia la posicion de su derecha o hacia la que se encuentra debajo. 
@@ -150,3 +145,47 @@ auxMax  (x:resto)
     | otherwise = maxresto
     where 
         maxresto = auxMax resto
+
+{-
+----------------------------------------------------------------------
+Ejercicio 6. Implementar la funcion masRepetido :: Tablero ->Int
+----------------------------------------------------------------------
+
+problema masRepetido (t: Tablero) : Z {
+requiere: {El tablero t es un tablero bien formado, es decir, la longitud de todas las filas es la misma, y tienen al menos un elemento}
+requiere: {Existe al menos una columna en el tablero t }
+requiere: {El tablero t no es vacıo, todos los n´umeros del tablero son positivos, mayor estricto a 0}
+asegura: {res es igual al n´umero que mas veces aparece en un tablero t. Si hay empate devuelve cualquiera de ellos}
+}
+-}
+
+type Repeticiones = [(Integer,Integer)]
+
+masRepetido :: Tablero ->Integer
+masRepetido [y] = auxmasRepetido (generarRepetidos y)
+masRepetido t = auxmasRepetido (generarRepetidos (aplanoTablero t))
+
+aplanoTablero :: Tablero -> Fila
+aplanoTablero [] = []
+aplanoTablero (y:ys) = y ++ aplanoTablero ys
+
+auxmasRepetido ::  Repeticiones -> Integer
+auxmasRepetido ((numero,cantidad):xs) = maximoRep numero cantidad xs
+
+maximoRep :: Integer -> Integer ->Repeticiones -> Integer
+maximoRep numeroactual cantidadactual [] = numeroactual
+maximoRep numeroactual cantidadactual ((numero,cantidad):xs) 
+    | cantidadactual >= cantidad = maximoRep numeroactual cantidadactual xs
+    | otherwise = maximoRep numero cantidad xs
+
+generarRepetidos :: Fila -> [(Integer, Integer)]
+generarRepetidos [] = []
+generarRepetidos (numeroactual:xs) = contieneNumeroIncremento numeroactual (generarRepetidos xs)
+
+
+
+contieneNumeroIncremento :: Integer -> Repeticiones -> Repeticiones
+contieneNumeroIncremento numeroactual [] = [(numeroactual, 1)]
+contieneNumeroIncremento numeroactual ((numero, cantidad):xs) 
+    | numero == numeroactual = (numero, cantidad + 1) : xs   --- tener presente que en Repeticiones no habra elementos repetidos
+    | otherwise = (numero,cantidad):contieneNumeroIncremento numeroactual xs 
