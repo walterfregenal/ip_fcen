@@ -1,135 +1,54 @@
 module PruebaFunciones where
 
 {-
---------------------------------------------------------------------------------
- EJERCICIO 3  (30 puntos)  -  Listas de tuplas y cadenas
---------------------------------------------------------------------------------
- Una tienda registra sus ventas como una secuencia de tuplas (producto,
- cantidad). Un mismo producto puede aparecer en varias ventas.
+==================
 
- problema productoMasVendido (ventas: seq⟨String × Z⟩) : String {
-   requiere: { |ventas| > 0 }
-   requiere: { todas las cantidades de ventas son mayores a 0 }
-   asegura:  { res es el nombre de un producto que aparece en ventas }
-   asegura:  { la suma de las cantidades de todas las ventas de res es mayor o
-               igual que la suma de las cantidades de las ventas de cualquier
-               otro producto de ventas }
-   asegura:  { si hay más de un producto con esa suma máxima, res es el que
-               aparece primero en ventas }
- }
+Sistema de stock
 
- Ejemplos:
-   productoMasVendido [("lapiz",5),("goma",3),("lapiz",4),("regla",8)] == "lapiz"
-        -- lapiz: 9, goma: 3, regla: 8
-   productoMasVendido [("goma",6),("regla",6)]                          == "goma"
-        -- empate: gana el que aparece primero
-   productoMasVendido [("regla",2)]                                     == "regla"
+===================
 
- Sugerencia de método (no obligatoria): pensar qué función auxiliar permitiría
- conocer el total vendido de UN producto dentro de la lista completa.
+Una reconocida empresa de comercio electronico nos pide desarrollar un sistema de stock de mercaderıa. 
+
+- La mercaderıa de la empresa va a ser representada como una secuencia de nombres de los productos, donde "puede haber productos repetidos".
+
+- El stock va a ser representado como una secuencia de tuplas de dos elementos, donde el primero es el nombre del producto y
+el segundo es la cantidad que hay en stock (en este caso "no hay nombre de productos repetidos"). 
+
+- Tambien se cuenta con una lista de precios de productos representada como una secuencia de tuplas de dos elementos, donde el primero es el nombre
+del producto y el segundo es el precio.
+
+Para implementar este sistema nos enviaron las siguientes especificaciones y nos pidieron que hagamos el desarrollo
+enteramente en Haskell, utilizando los tipos requeridos y solamente las funciones que se ven en la materia Introduccion a la
+Programacion / Algoritmos y Estructuras de Datos I (FCEyN-UBA).
+
+------------------------------------------------------------------------------------
+Ejercicio 1. Implementar la funcion generarStock :: [String] ->[(String, Int)]
+------------------------------------------------------------------------------------
+
+problema generarStock (mercaderıa: seq⟨String⟩) : seq⟨String × Z⟩ {
+requiere: {True}
+asegura: { La longitud de res es igual a la cantidad de productos distintos que hay en mercaderıa}
+asegura: { Para cada producto que pertenece a mercaderıa, existe un i tal que 0 ≤ i < |res| y 
+           res[i]0 = producto y res[i]1 = cantidad de veces que aparece producto en mercaderıa}
+}
+
 -}
 
 type Producto = String
-type Cantidad = Integer
-type Venta = (Producto,Cantidad)
-
-productoMasVendido :: [Venta] -> Producto
-productoMasVendido ventas = fst (auxProducto (primerElem ventas) (agrupoProductos ventas)) 
-{- inclui agrupoProductos, ya que detecte que auxProducto solo arrojaba la tup del primer max -}
---
---Aux : porque head arrojaba posible error sin pattern matching
-primerElem :: [Venta] -> Venta
-primerElem [] = ("",0)
-primerElem (x:xs) = x
---
--- aux : busca la tupla campeona en la lista de tup
-auxProducto :: Venta -> [Venta] -> Venta
-auxProducto venta [] = venta
-auxProducto (productotop,maximacantidad) ((producto,cantidad):xs) 
-    | maximacantidad >= cantidad = auxProducto (productotop, maximacantidad)  xs
-    | otherwise = auxProducto (producto,cantidad) xs
--- aux : agrupa las tuplas que tienen mismo producto sumando las cantidades ; con esto evitamos tups  repetidas 
-agrupoProductos :: [Venta] -> [Venta]
-agrupoProductos [x] = [x]
-agrupoProductos (x:xs) 
-    | contieneElem x xs = sumoRep x xs : agrupoProductos (quitoElem x (x:xs))
-    | otherwise = agrupoProductos xs
-
---aux de agrupoProductos
-contieneElem :: Venta -> [Venta] -> Bool
-contieneElem _ [] = False
-contieneElem (e,c) ((producto,cantidad):ys) 
-    | e == producto = True
-    | otherwise = contieneElem (e,c) ys 
---aux de agrupoProductos
-sumoRep :: Venta-> [Venta] -> Venta
-sumoRep venta [] = venta
-sumoRep (e,c) ((producto,cantidad):ys) 
-    | e == producto = sumoRep (e , c + cantidad ) ys
-    | otherwise = sumoRep (e,c) ys
---aux de agrupoProductos
-quitoElem :: Venta -> [Venta] -> [Venta]
-quitoElem _ [] = []
-quitoElem (e,c) ((producto,cantidad):ys) 
-    | e /= producto = (producto,cantidad): quitoElem (e,c) ys 
-    | otherwise = quitoElem (e,c) ys 
+type Cantidad = Integer 
+type Precio = Integer
+type Mercaderia = [Producto]
+type Stock = [(Producto,Cantidad)]
+type Precios = [(Producto,Precio)]
 
 
-{-
---------------------------------------------------------------------------------
- EJERCICIO 4  (20 puntos)  -  Matrices (listas de listas)
---------------------------------------------------------------------------------
- Una matriz cuadrada se representa como una lista de filas; todas las filas
- tienen la misma longitud, y esa longitud es igual a la cantidad de filas.
- Una matriz es simétrica si para todo par de posiciones (i, j) se cumple que
- m[i][j] = m[j][i], es decir, la fila i coincide con la columna i.
+generarStock :: [String] -> [(String, Integer)]
+generarStock [] = []
+generarStock (producto:xs) = contieneElementoIncremento producto (generarStock xs)
 
- problema esSimetrica (m: seq⟨seq⟨Z⟩⟩) : Bool {
-   requiere: { |m| > 0 }
-   requiere: { para todo 0 ≤ i < |m|, |m[i]| = |m| }
-   asegura:  { res = true ↔ para todo 0 ≤ i < |m| y 0 ≤ j < |m|, m[i][j] = m[j][i] }
- }
 
- Ejemplos:
-   esSimetrica [[7]]                                == True
-   esSimetrica [[1,2],[3,4]]                        == False
-   esSimetrica [[1,2,3],[2,5,6],[3,6,9]]            == True
-   esSimetrica [[1,2,3],[2,5,6],[3,7,9]]            == False
--}
-
-esSimetrica :: [[Integer]] -> Bool
-esSimetrica matriz 
-    | matriz == auxTraspuesta 0 largo matriz = True -- aca solo comparamos m con (m)T , si son iguales entonces m es simetrica 
-    | otherwise = False
-    where largo = largoLista matriz
-
-type IndiceFila = Integer
-type Contador = Integer    
-type Indice = Integer    
-type Longitud = Integer
-type Fila = [Integer]
-type Matriz = [Fila] 
-
-auxTraspuesta :: IndiceFila -> Longitud -> Matriz -> Matriz
-auxTraspuesta _ _ [x] = [x]
-auxTraspuesta numfila longitud matriz 
-    | numfila < longitud = auxCol numfila 0 longitud matriz : auxTraspuesta (numfila + 1 ) longitud matriz
-    | otherwise = []
-   
-auxCol :: IndiceFila -> Indice -> Longitud-> Matriz -> Fila
-auxCol fila indice longitud matriz 
-    |  indice < longitud   = iesimoElem fila (iesimoElem indice matriz) : auxCol fila (indice + 1) longitud matriz   
-    | otherwise = []
-
-iesimoElem :: Indice -> [a] -> a 
-iesimoElem indice lista = auxiesimoElem 0 indice lista
-
-auxiesimoElem :: Contador -> Indice -> [a] -> a
-auxiesimoElem _ _ [x] = x
-auxiesimoElem contador indice (x:xs) 
-    | contador == indice = x
-    | contador < indice = auxiesimoElem (contador + 1) indice xs 
-
-largoLista :: [a] -> Integer
-largoLista [] = 0
-largoLista (x:xs) = 1 + largoLista xs
+contieneElementoIncremento :: Producto -> Stock -> Stock
+contieneElementoIncremento productoactual [] = [(productoactual, 1)]
+contieneElementoIncremento productoactual ((producto, cantidad):xs) 
+    | producto == productoactual = (producto, cantidad + 1) : xs   --- no hay repetidos en stock
+    | otherwise = (producto,cantidad):contieneElementoIncremento productoactual xs 
