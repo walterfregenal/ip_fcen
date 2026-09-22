@@ -52,3 +52,22 @@ contieneElementoIncremento productoactual [] = [(productoactual, 1)]
 contieneElementoIncremento productoactual ((producto, cantidad):xs) 
     | producto == productoactual = (producto, cantidad + 1) : xs   --- no hay repetidos en stock
     | otherwise = (producto,cantidad):contieneElementoIncremento productoactual xs 
+
+
+{-
+------------------------------------------------------------------------------------------
+Ejercicio 2. Implementar la funcion stockDeProducto :: [(String, Int))] ->String ->Int
+-------------------------------------------------------------------------------------------
+problema stockDeProducto (stock: seq⟨String × Z⟩, producto: String ) : Z {
+requiere: {No existen dos nombres de productos (primeras componentes) iguales en stock}
+requiere: {Todas las cantidades (segundas componentes) de stock son mayores a cero}
+asegura: {si no existe un i tal que 0 ≤ i < |stock| y producto = stock[i]0 entonces res es igual a 0 }
+asegura: {si existe un i tal que 0 ≤ i < |stock| y producto = stock[i]0 entonces res es igual a stock[i]1 }
+}
+
+-}
+stockDeProducto :: [(String, Integer)] ->String ->Integer
+stockDeProducto  [] _ = 0
+stockDeProducto ((producto,cantidad):xs) productoactual 
+    | producto == productoactual = cantidad
+    | otherwise = stockDeProducto xs productoactual
