@@ -154,15 +154,14 @@ Ejercicio 6. Implementar la funcion masRepetido :: Tablero ->Int
 problema masRepetido (t: Tablero) : Z {
 requiere: {El tablero t es un tablero bien formado, es decir, la longitud de todas las filas es la misma, y tienen al menos un elemento}
 requiere: {Existe al menos una columna en el tablero t }
-requiere: {El tablero t no es vacıo, todos los n´umeros del tablero son positivos, mayor estricto a 0}
-asegura: {res es igual al n´umero que mas veces aparece en un tablero t. Si hay empate devuelve cualquiera de ellos}
+requiere: {El tablero t no es vacıo, todos los numeros del tablero son positivos, mayor estricto a 0}
+asegura: {res es igual al numero que mas veces aparece en un tablero t. Si hay empate devuelve cualquiera de ellos}
 }
 -}
 
 type Repeticiones = [(Integer,Integer)]
 
 masRepetido :: Tablero ->Integer
-masRepetido [y] = auxmasRepetido (generarRepetidos y)
 masRepetido t = auxmasRepetido (generarRepetidos (aplanoTablero t))
 
 aplanoTablero :: Tablero -> Fila
