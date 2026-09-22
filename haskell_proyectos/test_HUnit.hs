@@ -1,6 +1,10 @@
 import FuncionesListas
 import FuncionesMatematicas
 import Test.HUnit
+import Funciones_ejercicios_parcial_a 
+import Funciones_ejercicios_parcial_T1 
+import Funciones_ejercicios_parcial_b
+import Funciones_ejercicios_parcial_c
 
 
 testSuiteordenarLista = [
@@ -90,6 +94,34 @@ testSuiteOrdenolistTup = test [
   "Caso_base" ~: ordenoListaTup [] ~?= [],
   "Caso_prueba" ~: ordenoListaTup lista_tup ~?= [(4,["Succession"]),(5,["Stranger Things","Breaking Bad"]),(6,["The Crown","Bojack Horseman","Better Call Saul"]),(7,["Mad Men"]),(8,["Game of Thrones"]),(9,["The Office US"]),(11,["Modern Family"])]
   ]
+
+
+testSuitesumoCuadrados :: Test
+testSuitesumoCuadrados = test [
+    "Categoría 1: El borde inferior n igual a 1 (minimo valido)" ~: sumaCuadradosPares 1 ~?= 0,
+    "Categoría 2: Números pares (n > 1)"    ~: sumaCuadradosPares 2 ~?= 4,
+    "Categoria 2 : n igual a 4 (par compuesto)" ~: sumaCuadradosPares 4 ~?= 20,
+    "Categoría 3: Números impares (n > 1) n igual a 3 (impar)"  ~: sumaCuadradosPares 3 ~?= 4,
+    "Categoria 3: n igual a 5 (impar mayor)"   ~: sumaCuadradosPares 5 ~?= 20
+  ]
+
+
+
+testSuiteSumaDigitos :: Test
+testSuiteSumaDigitos = test [
+    -- Categoría 1: El borde inferior
+    "Categoria 1: n igual a 0 (borde minimo)"             ~: sumaDigitosEnPosicionesPares 0 ~?= 0,
+
+    -- Categoría 2: Números de una sola cifra
+    "Categoria 2: n igual a 3 (una cifra, posicion par)"   ~: sumaDigitosEnPosicionesPares 3 ~?= 3,
+    "Categoria 2: n igual a 9 (una cifra impar)"           ~: sumaDigitosEnPosicionesPares 9 ~?= 9,
+
+    -- Categoría 3: Números de múltiples cifras (pares e impares en posiciones)
+    "Categoria 3: n igual a 10 (dos cifras, digito par en pos 0)"  ~: sumaDigitosEnPosicionesPares 10 ~?= 0,
+    "Categoria 3: n igual a 101 (tres cifras, suma posiciones)"     ~: sumaDigitosEnPosicionesPares 101 ~?= 2,
+    "Categoria 3: n igual a 987654321 (numero largo complejo)"      ~: sumaDigitosEnPosicionesPares 987654321 ~?= 25
+  ]
+
 
 
 testodosLosTest = test [ testSuitecapicuaCh, testSuiteesCapicua , testSuiteordenarLista]
