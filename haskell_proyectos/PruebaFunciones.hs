@@ -188,3 +188,105 @@ contieneNumeroIncremento numeroactual [] = [(numeroactual, 1)]
 contieneNumeroIncremento numeroactual ((numero, cantidad):xs) 
     | numero == numeroactual = (numero, cantidad + 1) : xs   --- tener presente que en Repeticiones no habra elementos repetidos
     | otherwise = (numero,cantidad):contieneNumeroIncremento numeroactual xs 
+
+
+{-
+====================
+Perfectos amigos
+====================
+
+El Departamento de Matematica (DM) de la FCEyN-UBA nos ha encargado que desarrollemos un sistema para el
+tratamiento de n´umeros naturales. 
+Especıficamente les interesa conocer cuando un numero es perfecto y cuando dos numeros son amigos. 
+
+Aunque por ahı no lo sabıas, estos conceptos existen y se definen como:
+
+A) Numero perfecto: Un numero natural es perfecto cuando la suma de sus divisores propios (numeros que lo dividen menores a el) es igual
+al mismo numero.  Por ejemplo, 6 es un numero perfecto porque la suma de sus divisores propios (1,2 y 3) es igual a 6.
+
+B) Numeros amigos : Dos numeros naturales distintos son amigos si cada uno de ellos se obtiene sumando los divisores propios del otro.
+Por ejemplo, 220 y 284 son amigos porque los divisores propios de 220 son 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 y 110 que
+sumados dan 284 y los divisores propios de 284 son 1, 2 , 4, 71, 142 que sumados dan 220.
+
+Para implementar este sistema nos enviaron las siguientes especificaciones en lenguaje semiformal y nos pidieron que hagamos
+el desarrollo enteramente en Haskell, utilizando los tipos requeridos y solamente las funciones que se ven en la materia
+Introducci´on a la Programacion / Algoritmos y Estructuras de Datos I (FCEyN-UBA).
+
+-}
+{-
+--------------------------------------------------------------------
+Ejercicio 9. Implementar la funcion divisoresPropios :: Int ->[Int]
+----------------------------------------------------------------------
+problema divisoresPropios (n: Z) : seq⟨Z⟩ {
+requiere: {n > 0}
+asegura: {res contiene a todos los divisores propios de n, ordenados de menor a mayor}
+asegura: {res no tiene elementos repetidos}
+asegura: {res no contiene a ningun elemento que no sea un divisor propio de n}
+}
+-}
+type Indice = Integer
+type Numero = Integer
+type DivisoresPropios = [Integer]
+
+
+divisoresPropios :: Integer ->[Integer]
+divisoresPropios n = auxDivisoresHasta 1 n
+--
+auxDivisoresHasta :: Indice -> Numero -> DivisoresPropios   
+auxDivisoresHasta indice numero 
+    | indice == numero = []   -- resuelve el caso especial cuando n == 1  y cuando n==indice
+    | mod numero indice == 0 = indice: auxDivisoresHasta (indice + 1) numero  
+    | otherwise = auxDivisoresHasta (indice+1) numero
+
+
+{-
+--------------------------------------------------------------------
+Ejercicio 10. Implementar la funcion sonAmigos :: Int ->Int ->Bool
+--------------------------------------------------------------------
+problema sonAmigos (n,m: Z) : Bool {
+requiere: {n > 0}
+requiere: {m > 0}
+requiere: {m ̸= n}
+asegura: {res = True ⇔ n y m son numeros amigos}
+}
+-}
+
+
+sonAmigos :: Integer ->Integer ->Bool
+sonAmigos n m =  sumaLista (divisoresPropios m) == n  &&  sumaLista (divisoresPropios n) == m 
+    
+
+esNumeroPerfecto :: Integer -> Bool
+esNumeroPerfecto n 
+    | sumaLista (divisoresPropios n) == n = True
+    | otherwise = False
+
+sumaLista :: DivisoresPropios -> Integer
+sumaLista [] = 0
+sumaLista (x:xs) = x + sumaLista xs
+
+
+{-
+-----------------------------------------------------------------------------
+Ejercicio 11. Implementar la funcion losPrimerosNPerfectos :: Int ->[Int]
+-------------------------------------------------------------------------------
+problema losPrimerosNPerfectos (n: Z) : seq⟨Z⟩ {
+requiere: {n > 0}
+asegura: {|res| = n}
+asegura: {res es la lista de los primeros n n´umeros perfectos, de menor a mayor}
+}
+Por cuestiones de tiempos de ejecucion, no les recomendamos que prueben este ejercicio con un n > 4.
+-}
+
+
+type ListaPerfectos = [Integer]
+type Contador = Integer
+
+losPrimerosNPerfectos :: Integer -> [Integer] 
+losPrimerosNPerfectos n = aux 1 n
+
+aux :: Indice -> Contador -> ListaPerfectos
+aux  _ 0 = []
+aux  indice contador
+    | esNumeroPerfecto indice = indice : aux (indice + 1) (contador - 1)
+    | otherwise = aux (indice + 1) contador
