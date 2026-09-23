@@ -5,6 +5,7 @@ import Funciones_ejercicios_parcial_a
 import Funciones_ejercicios_parcial_T1 
 import Funciones_ejercicios_parcial_b
 import Funciones_ejercicios_parcial_c
+import Funciones_Ejercicios_parcial_d
 
 
 testSuiteordenarLista = [
