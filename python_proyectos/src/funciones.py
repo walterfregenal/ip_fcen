@@ -47,3 +47,26 @@ def quitorepetidos (lista: list[int])->list[int]:
         return [elemento] + quitorepetidos (quitotodos(resto, elemento))
     else:
         return []
+
+#===============================================
+# Funciones : imprimir_un_verso; linea por linea
+#===============================================
+def imprimir_un_verso(parrafo):
+    linea = []
+    for texto in parrafo:
+        if texto != "\n":
+            linea.append(texto)
+            continue
+        print ("".join(linea))
+        del linea [:]
+    else:
+        print("".join(linea))       
+#================================
+# Funcion : Factorial
+#================================
+
+def factorialNum(numero:int)->int:
+    if numero == 0 or numero == 1:
+        return (1)
+    else:
+        return numero * factorialNum (numero-1)
