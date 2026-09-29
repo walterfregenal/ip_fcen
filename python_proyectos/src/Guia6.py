@@ -219,18 +219,95 @@ Los enunciados pueden no ser del todo claros, especificar los problemas en nuest
 
 1. doble_si_es_par(numero); que devuelve el doble del número en caso de ser par y el mismo número en caso contrario.
 
+problema doble_si_es_par(numero: Z):Z{
+    requiere :{True}
+    asegura:{res = 2*numero si numero es par, numero en caso contrario}
+}
+"""
+def doble_si_es_par(numero:int)->int:
+    if numero % 2 == 0:
+        return (numero * 2)
+    else:
+        return numero
+    
+"""
+
 2. devolver_valor_si_es_par_si_no_el_que_sigue(numero): devuelve el mismo número si es par, y si no, el siguiente.
 Analizar distintas formas de implementación (usando un if-then-else y dos if). ¿Todas funcionan?
 
+problema devolver_valor_si_es_par_si_no_el_que_sigue(numero: Z): Z {
+    requiere: {True}
+    asegura: {res = numero si es par, el numero+1 en caso contrario}
+}
+"""
+def devolver_valor_si_es_par_si_no_el_que_sigue(numero: int)->int:
+    if numero % 2 == 0:
+        return numero
+    else:
+        return (numero + 1)
+
+def devolver_valor_si_es_par_si_no_el_que_sigue2(numero: int)->int:
+    if numero % 2 == 0:
+        return numero
+    if numero % 2 != 0:
+        return (numero + 1)
+
+"""
 3. doble_si_es_multiplo3_el_triple_si_es_multiplo9(numero): en otro caso, devolver el número original. 
 Analizar distintas formas de implementación (usando un if-then-else, dos if, o alguna opción de operación lógica).
 Todas funcionan? Cuál es el resultado si la entrada es 18?
 
+problema doble_si_es_multiplo3_el_triple_si_es_multiplo9(numero: Z): Z {
+    requiere: {True}
+    asegura: { res = numero * 3 si numero mod 9 = 0, o(L) res = numero * 2 si numero mod 3 = 0, o(L) res = numero en caso contrario }
+}
+"""
+def doble_si_es_multiplo3_el_triple_si_es_multiplo9(numero: int) -> int:
+    if numero % 9 == 0:
+        return (numero * 3)
+    elif numero % 3 == 0:
+        return (numero * 2)
+    else:
+        return (numero)
+
+"""
+
 4. lindo_nombre(nombre) que dado un nombre, si la longitud es igual o mayor a 5 devolver una frase que diga "Tu
 nombre tiene muchas letras!" y si no, "Tu nombre tiene menos de 5 caracteres".
 
+problema lindo_nombre(nombre: seq<Char>): seq<Char>{
+    requiere: {nombre[i] pertenece a Char  donde 0<=i<|nombre|}
+    requiere: {|nombre|> 0}
+    asegura: {res = "Tu nombre tiene muchas letras!", si |nombre|>= 5 , si no res = "Tu nombre tiene menos de 5 caracteres" }
+}
+
+"""
+def lindo_nombre(nombre: str)-> str:
+    if len(nombre) >= 5:
+        return ("Tu nombre tiene muchas letras!")
+    else:
+        return ("Tu nombre tiene menos de 5 caracteres")
+
+"""
 5. elRango(numero) que imprime por pantalla "Menor a 5" si el número es menor a 5, "Entre 10 y 20" si el número está
 en ese rango y "Mayor a 20" si el número es mayor a 20.
+
+problema elRango(numero: Z): None {
+    requiere: {True}
+    asegura: {stdout = "Menor a 5\n", si numero < 5, si no stdout = "Entre 10 y 20\n", si 10 < numero < 20, si no stdout = "Mayor a 20\n" si numero > 20}
+}
+"""
+def elRango(numero: int) -> None:
+    if numero < 5:
+        print("Menor a 5")
+    elif 10 < numero < 20:
+        print("Entre 10 y 20")
+    elif numero > 20:
+        print("Mayor a 20")
+    else:
+        None
+
+"""
 
 6. En Argentina una persona del sexo femenino se jubila a los 60 años, mientras que aquellas del sexo masculino
  se jubilan a los 65 años. 
@@ -238,4 +315,101 @@ en ese rango y "Mayor a 20" si el número es mayor a 20.
  Al resto de las personas se les ordena ir a trabajar. 
  Implemente una función que, dados los parámetros de sexo (F o M) y edad, imprima la frase que corresponda
    según el caso: "Andá de vacaciones" o "Te toca trabajar".
+
+problema te_vas_de_vacaciones_o_a_trabajar(sexo: Char, edad: Z): None {
+    requiere: { sexo = "M" o "F"}
+    requiere: { 0 < edad < 110}
+    asegura: { stdout = "Andá de vacaciones\n", si  edad < 18 o sexo = F y edad > 60, o sexo = M y edad > 65, sino stdout ="Te toca trabajar\n" en caso contrario }
+}
+
+"""   
+def te_vas_de_vacaciones_o_a_trabajar(sexo: str, edad: int) -> None:
+    if edad < 18 or (sexo == 'F' and edad >= 60) or (sexo == 'M' and edad >= 65):
+        print("Andá de vacaciones")
+    else:
+        print("Te toca trabajar")
+   
+
+"""
+============
+Ejercicio 6.
+============ 
+
+Implementar los siguientes procedimientos usando repetición condicional while:
+
+1. Escribir un procedimiento que imprima los números del 1 al 10.
+
+"""
+def imprime_uno_a_diez()->None:
+    contador = 1
+    while contador <=10:
+        print(f"{contador}")
+        contador += 1
+"""
+
+2. Escribir un procedimiento que imprima los números pares entre el 10 y el 40.
+"""
+def imprime_pares_10a40() ->None:
+    contador = 10
+    while contador <= 40:
+        print(f"{contador}")
+        contador += 2
+
+"""
+3. Escribir un procedimiento que imprima la palabra "com" 10 veces.
+
+"""
+def imprime_com_10veces()->None:
+    counter = 10
+    while counter > 0:
+        print("com")
+        counter -= 1
+
+"""
+
+4. Escribir un procedimiento de cuenta regresiva para lanzar un cohete. Dicho procedimiento irá imprimiendo desde el
+número que me pasan por parámetro (que será positivo) hasta el 1, y por último "Despegue".
+
+"""
+def cuenta_regresiva(numero: int)->None:
+    while numero >= 1:
+        print(f"{numero}")
+        numero -= 1
+    print("Despegue")
+"""
+
+
+5. Hacer un procedimiento que monitoree un viaje en el tiempo. Dicho procedimiento recibe dos parámetros, "el año de
+partida" y "algún año de llegada", siendo este último parámetro siempre más chico que el primero. El viaje se realizará
+de a saltos de un año y el procedimiento debe mostrar el texto: "Viajó un año al pasado, estamos en el año: <año>"
+cada vez que se realice un salto de año.
+
+"""
+def viaje_en_el_tiempo(partida,llegada)->None:
+    while partida > llegada:
+        partida -= 1
+        print(f"Viajó un año al pasado, estamos en el año: {partida}") 
+"""
+
+6. Implementar de nuevo el procedimiento de monitoreo de viaje en el tiempo, pero desde el año de partida hasta lo más
+cercano al 384 a.C., donde conoceremos a Aristóteles. Y para que sea más rápido el viaje, ¡vamos a viajar de a 20 años
+en cada salto!
+"""
+
+def viaje_rapido_en_el_tiempo(partida: int) -> None:
+    while partida > -384:
+        partida -= 20
+        if partida > 0:
+            print(f"Viajó 20 años al pasado, estamos en el año: {partida} d.c.")
+        else:
+            print(f"Viajó 20 años al pasado, estamos en el año: {abs(partida)} a.c.")
+    print("Es el año más cercano a 384 a.C., ¡conoceremos a Aristóteles!")
+"""
+============
+Ejercicio 7.
+============ 
+Implementar los procedimientos del ejercicio 6 utilizando for num in range(i,f,p):.
+ Recordar que la función range para generar una secuencia de números en un rango dado, 
+ con un valor inicial i, un valor final f y un paso p. 
+ Ver documentación: https://docs.python.org/es/3/library/stdtypes.html#typesseq-range
 """
