@@ -79,10 +79,10 @@ def perimetro()->float:
 ==============
 Ejercicio 2. 
 ==============
-Denir las siguientes funciones y procedimientos con parámetros:
+Definir las siguientes funciones y procedimientos con parámetros:
 1. problema imprimir_saludo (in nombre: String) {
 requiere: { True }
-asegura: {imprime Hola < nombre >"por pantalla}
+asegura: {imprime "Hola < nombre >"por pantalla}
 }
 """
 def imprimir_saludo(nombre:str):
@@ -124,7 +124,7 @@ def es_par(numero):
 """
 7. cantidad_de_pizzas(comensales, min_cant_de_porciones) que devuelva la cantidad de pizzas que necesitamos
 para que cada comensal coma como mínimo min_cant_de_porciones porciones de pizza. Considere que cada pizza
-tiene 8 porciones y que se preere que sobren porciones.
+tiene 8 porciones y que se prefiere que sobren porciones.
 
 """
 import math
@@ -219,7 +219,7 @@ Los enunciados pueden no ser del todo claros, especificar los problemas en nuest
 
 1. doble_si_es_par(numero); que devuelve el doble del número en caso de ser par y el mismo número en caso contrario.
 
-problema doble_si_es_par(numero: Z):Z{
+problema doble_si_es_par(in numero: Z):Z{
     requiere :{True}
     asegura:{res = 2*numero si numero es par, numero en caso contrario}
 }
@@ -235,7 +235,7 @@ def doble_si_es_par(numero:int)->int:
 2. devolver_valor_si_es_par_si_no_el_que_sigue(numero): devuelve el mismo número si es par, y si no, el siguiente.
 Analizar distintas formas de implementación (usando un if-then-else y dos if). ¿Todas funcionan?
 
-problema devolver_valor_si_es_par_si_no_el_que_sigue(numero: Z): Z {
+problema devolver_valor_si_es_par_si_no_el_que_sigue(in numero: Z): Z {
     requiere: {True}
     asegura: {res = numero si es par, el numero+1 en caso contrario}
 }
@@ -257,7 +257,7 @@ def devolver_valor_si_es_par_si_no_el_que_sigue2(numero: int)->int:
 Analizar distintas formas de implementación (usando un if-then-else, dos if, o alguna opción de operación lógica).
 Todas funcionan? Cuál es el resultado si la entrada es 18?
 
-problema doble_si_es_multiplo3_el_triple_si_es_multiplo9(numero: Z): Z {
+problema doble_si_es_multiplo3_el_triple_si_es_multiplo9(in numero: Z): Z {
     requiere: {True}
     asegura: { res = numero * 3 si numero mod 9 = 0, o(L) res = numero * 2 si numero mod 3 = 0, o(L) res = numero en caso contrario }
 }
@@ -275,7 +275,7 @@ def doble_si_es_multiplo3_el_triple_si_es_multiplo9(numero: int) -> int:
 4. lindo_nombre(nombre) que dado un nombre, si la longitud es igual o mayor a 5 devolver una frase que diga "Tu
 nombre tiene muchas letras!" y si no, "Tu nombre tiene menos de 5 caracteres".
 
-problema lindo_nombre(nombre: seq<Char>): seq<Char>{
+problema lindo_nombre(in nombre: seq<Char>): seq<Char>{
     requiere: {nombre[i] pertenece a Char  donde 0<=i<|nombre|}
     requiere: {|nombre|> 0}
     asegura: {res = "Tu nombre tiene muchas letras!", si |nombre|>= 5 , si no res = "Tu nombre tiene menos de 5 caracteres" }
@@ -292,7 +292,7 @@ def lindo_nombre(nombre: str)-> str:
 5. elRango(numero) que imprime por pantalla "Menor a 5" si el número es menor a 5, "Entre 10 y 20" si el número está
 en ese rango y "Mayor a 20" si el número es mayor a 20.
 
-problema elRango(numero: Z): None {
+problema elRango(in numero: Z): None {
     requiere: {True}
     asegura: {stdout = "Menor a 5\n", si numero < 5, si no stdout = "Entre 10 y 20\n", si 10 < numero < 20, si no stdout = "Mayor a 20\n" si numero > 20}
 }
@@ -316,7 +316,7 @@ def elRango(numero: int) -> None:
  Implemente una función que, dados los parámetros de sexo (F o M) y edad, imprima la frase que corresponda
    según el caso: "Andá de vacaciones" o "Te toca trabajar".
 
-problema te_vas_de_vacaciones_o_a_trabajar(sexo: Char, edad: Z): None {
+problema te_vas_de_vacaciones_o_a_trabajar(in sexo: Char, in edad: Z): None {
     requiere: { sexo = "M" o "F"}
     requiere: { 0 < edad < 110}
     asegura: { stdout = "Andá de vacaciones\n", si  edad < 18 o sexo = F y edad > 60, o sexo = M y edad > 65, sino stdout ="Te toca trabajar\n" en caso contrario }
