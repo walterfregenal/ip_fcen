@@ -338,7 +338,6 @@ Ejercicio 6.
 Implementar los siguientes procedimientos usando repetición condicional while:
 
 1. Escribir un procedimiento que imprima los números del 1 al 10.
-
 """
 def imprime_uno_a_diez()->None:
     contador = 1
@@ -346,7 +345,6 @@ def imprime_uno_a_diez()->None:
         print(f"{contador}")
         contador += 1
 """
-
 2. Escribir un procedimiento que imprima los números pares entre el 10 y el 40.
 """
 def imprime_pares_10a40() ->None:
@@ -357,7 +355,6 @@ def imprime_pares_10a40() ->None:
 
 """
 3. Escribir un procedimiento que imprima la palabra "com" 10 veces.
-
 """
 def imprime_com_10veces()->None:
     counter = 10
@@ -366,10 +363,8 @@ def imprime_com_10veces()->None:
         counter -= 1
 
 """
-
 4. Escribir un procedimiento de cuenta regresiva para lanzar un cohete. Dicho procedimiento irá imprimiendo desde el
 número que me pasan por parámetro (que será positivo) hasta el 1, y por último "Despegue".
-
 """
 def cuenta_regresiva(numero: int)->None:
     while numero >= 1:
@@ -377,20 +372,16 @@ def cuenta_regresiva(numero: int)->None:
         numero -= 1
     print("Despegue")
 """
-
-
 5. Hacer un procedimiento que monitoree un viaje en el tiempo. Dicho procedimiento recibe dos parámetros, "el año de
 partida" y "algún año de llegada", siendo este último parámetro siempre más chico que el primero. El viaje se realizará
 de a saltos de un año y el procedimiento debe mostrar el texto: "Viajó un año al pasado, estamos en el año: <año>"
 cada vez que se realice un salto de año.
-
 """
 def viaje_en_el_tiempo(partida,llegada)->None:
     while partida > llegada:
         partida -= 1
         print(f"Viajó un año al pasado, estamos en el año: {partida}") 
 """
-
 6. Implementar de nuevo el procedimiento de monitoreo de viaje en el tiempo, pero desde el año de partida hasta lo más
 cercano al 384 a.C., donde conoceremos a Aristóteles. Y para que sea más rápido el viaje, ¡vamos a viajar de a 20 años
 en cada salto!
@@ -404,6 +395,7 @@ def viaje_rapido_en_el_tiempo(partida: int) -> None:
         else:
             print(f"Viajó 20 años al pasado, estamos en el año: {abs(partida)} a.c.")
     print("Es el año más cercano a 384 a.C., ¡conoceremos a Aristóteles!")
+
 """
 ============
 Ejercicio 7.
@@ -413,3 +405,126 @@ Implementar los procedimientos del ejercicio 6 utilizando for num in range(i,f,p
  con un valor inicial i, un valor final f y un paso p. 
  Ver documentación: https://docs.python.org/es/3/library/stdtypes.html#typesseq-range
 """
+"""
+1. Escribir un procedimiento que imprima los números del 1 al 10.
+"""
+
+def imprime_de_uno_a_diez() -> None:
+    for i in range(1, 11):  # Empieza en 1 y termina en 10 (el 11 es exclusivo)
+        print(f"{i}")
+"""
+2. Escribir un procedimiento que imprima los números pares entre el 10 y el 40.
+"""
+def numeros_pares_entre_10_y_40() ->None:
+    for i in range(10,41,2):
+        print(f"{i}")
+
+"""
+3. Escribir un procedimiento que imprima la palabra "com" 10 veces.
+"""
+def imprime_10_com()->None:
+    for i in range(10):
+        print("com")
+"""
+4. Escribir un procedimiento de cuenta regresiva para lanzar un cohete. 
+Dicho procedimiento irá imprimiendo desde el número que me pasan por parámetro (que será positivo) hasta el 1,
+y por último "Despegue".
+"""
+def cuenta_regresiva(numero: int) -> None:
+    for i in range(numero, 0, -1):  # Paso negativo -1 para contar hacia atrás
+        print(f"{i}")               # Imprimimos i, no el parámetro fijo
+    print("Despegue")
+
+
+"""
+5. Hacer un procedimiento que monitoree un viaje en el tiempo. Dicho procedimiento recibe dos parámetros, "el año de
+partida" y "algún año de llegada", siendo este último parámetro siempre más chico que el primero. El viaje se realizará
+de a saltos de un año y el procedimiento debe mostrar el texto: "Viajó un año al pasado, estamos en el año: <año>"
+cada vez que se realice un salto de año.
+"""
+def viaje_en_el_tiempo(partida: int, llegada: int) -> None:
+    for i in range(partida, llegada, -1):  # Paso negativo -1 para ir al pasado
+        print(f"Viajó un año al pasado, estamos en el año: {i - 1}")
+
+
+"""
+6. Implementar de nuevo el procedimiento de monitoreo de viaje en el tiempo, pero desde el año de partida hasta lo más
+cercano al 384 a.C., donde conoceremos a Aristóteles. Y para que sea más rápido el viaje, ¡vamos a viajar de a 20 años
+en cada salto!
+"""
+def nuevo_viaje_en_el_tiempo(partida: int) -> None:
+    for i in range(partida, -384, -20):  # Paso negativo -20 para saltar hacia el pasado
+        nuevo_anio = i - 20
+        if nuevo_anio > 0:
+            print(f"Viajó 20 años al pasado, estamos en el año: {nuevo_anio} d.c.")
+        else:
+            print(f"Viajó 20 años al pasado, estamos en el año: {abs(nuevo_anio)} a.c.")
+    print("Conoceremos a Aristóteles")
+
+"""
+============
+Ejercicio 8.
+=============
+ Realizar la ejecución simbólica de los siguientes códigos:
+
+1. x=5 ; y=7; x = x + y
+    Estado inicial: x = 5, y = 7
+    Última línea (x = x + y): x toma el valor de 5 + 7, por lo tanto x = 12, y = 7.
+
+2. x=5 ; y=7 ; z=x+y; y = z * 2
+    Estado inicial:
+    x = 5, y = 7
+    z = x + y -> z = 5 + 7 -> z = 12
+    y = z * 2 -> y = 12 * 2 -> y = 24 (el valor viejo de y que era 7 se pisa).
+    Estado final: x = 5, y = 24, z = 12.
+
+3. x=5 ; y=7 ; x="hora"; y = x * 2
+
+4. x=False ; res=not(x)
+
+5. x=False ; x=not(x)
+
+6. x=True ; y=False ; res=x and y; x = res and x
+
+"""
+"""
+============
+Ejercicio 9.
+============
+ Sea el siguiente código:
+
+def rt(x: int, g: int) -> int:
+    g = g + 1
+    return x + g
+g: int = 0
+
+def ro(x: int) -> int:
+    global g
+    g = g + 1
+    return x + g
+
+1. Cuál es el resultado de evaluar tres veces seguidas ro(1)?
+
+    La función ro tiene la línea global g, lo que significa que modifica la variable g que está afuera (que arranca en 0).
+    1ª llamada (ro(1)): g pasa de 0 a 1. Retorna 1 + 1 = 2. (Ahora g = 1).
+    2ª llamada (ro(1)): g pasa de 1 a 2. Retorna 1 + 2 = 3. (Ahora g = 2).
+    3ª llamada (ro(1)): g pasa de 2 a 3. Retorna 1 + 3 = 4. (Ahora g = 3).
+    Resultado: Retorna 2, luego 3, y luego 4.
+
+2. Cuál es el resultado de evaluar tres veces seguidas rt(1, 0)?
+
+3. En cada función, realizar la ejecución simbólica.
+
+4. Dar la especificación para cada función, rt y ro.
+
+Especificación de rt:
+
+    Requiere: x e g sean números enteros (int).
+    Asegura: Retorna la suma de x más el parámetro g incrementado en 1, sin alterar el entorno global.
+
+Especificación de ro:
+
+    Requiere: x sea un número entero (int) y que exista una variable global g.
+    Asegura: Incrementa en 1 la variable global g y retorna la suma de x más el nuevo valor de g.
+"""
+#
