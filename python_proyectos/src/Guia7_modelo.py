@@ -15,9 +15,11 @@ Notas Generales:
 - Para conocer cómo se usan las funciones sobre secuencias, revisar la documentación oficial.
 
 
-================================================================================
-1. Recorrido y búsqueda en secuencias
-================================================================================
+#================================================================================
+#
+# 1. Recorrido y búsqueda en secuencias
+#
+#================================================================================
 ============
 Ejercicio 1.
 ============
@@ -31,32 +33,43 @@ formas de recorrido sobre secuencias y distintas funciones de Python.
    }
    Nota: Implementar al menos de 3 formas distintas este problema.
 """
-def pertenece(lista: list[int], e: int)-> bool:
-    return e in lista
-    
-def pertenece2(lista: list[int], e: int)-> bool:
-    encontrado : bool = False
+
+
+def genero_lista_enteros()->list[int]:
+    lista: list[int] = []
+    numero: str = str(input("Ingrese numero: "))
+    while  numero != ' ':
+        lista.append(int(numero))
+        numero: str = str(input("Ingrese numero: "))
+    return lista
+
+def pertenece(lista:list[int], e:int)-> bool:
+    res: bool = False
+    indice: int = 0
+    while indice < len(lista) and res == False:
+        if  lista[indice] == e:
+            res = True
+        else:
+            pass
+        indice += 1
+    return res
+
+def pertenece2(lista:list[int], e:int)-> bool:
+    res: bool = False
     for i in lista:
         if e == i:
-            encontrado = True
-            break
-    return encontrado
+            res = True
+        else:
+            pass
+    return res
 
-def lenght(lista: list [int])->int:
-    counter : int = 0
-    for i in lista:
-        counter +=1
-    return counter
-
-def pertenece3(lista: list[int], e: int)-> bool:
-    encontrado: bool = False
-    rango = lenght(lista) -1
-    while rango >= 0:
-        if lista[rango] == e:
-            encontrado = True
-            break
-        rango -= 1
-    return encontrado
+def pertenece3(lista:list[int], e:int)-> bool:
+    res: bool = False
+    indice: int = 0
+    while indice < len(lista) and res == False:
+        res = lista[indice] == e
+        indice += 1
+    return res
 
 
 """
@@ -80,11 +93,21 @@ def divide_a_todos(lista: list[int], e: int) -> bool:
    Nota: No utilizar la función sum() nativa.
 
 """
-def suma_total(lista: list[int])->int:
-    suma: int = 0
-    for elemento in lista:
-        suma += elemento
-    return suma
+def suma_total(lista : list[int])-> int:
+    res : int = 0
+    for x in lista:
+        res += x
+    return res
+
+def suma_total2(lista: list[int])-> int:
+    res : int = 0
+    indice : int = 0
+    while indice < len(lista):
+        res += lista[indice]
+        indice += 1
+    return res
+
+#print(f"suma total: {suma_total([-1,0,3,4])}")
 
 """
 4) maximo (in s: seq<Z>) : Z
@@ -157,6 +180,30 @@ def ordenar(s:list[int])->list[int]:
     campeon : int = maximo(s)
     return ordenar (quitar_uno(s,campeon)) + [campeon]
 
+#======
+# Adicional : es_primo y cantidad_de_primos
+#======
+def es_primo(numero:int)->bool:
+    res : bool = True
+    divisor: int = 1
+    contador: int = 0
+    if numero < 2:
+        res = False
+    else:
+        while divisor <= numero and res == True:
+            if numero % divisor == 0:
+                contador += 1
+                if contador > 2:
+                    res = False
+            divisor += 1
+    return res
+
+def cantidad_de_primos(m: int, n: int) -> int:
+    contador: int = 0
+    for i in range (min(m,n), max(m,n)+1):
+        if es_primo(i):
+            contador += 1
+    return contador
 
 """
 7) pos_maximo (in s: seq<Z>) : Z
@@ -197,6 +244,7 @@ def pos_minimo(s:list[int])->int:
             posicion = i
     return (posicion)
 """
+
 
 9) long_mayor_a_siete (in s: seq<seq<Char>>) : Bool
    requiere: { True }
@@ -271,42 +319,128 @@ def iguales_consecutivos(s:list[int])-> bool:
 """
 """
 
-================================================================================
-2. Recorrido: filtrando, modificando y procesando secuencias
-================================================================================
+#================================================================================
+#
+# 2. Recorrido: filtrando, modificando y procesando secuencias
+#
+#================================================================================
 
-Ejercicio 2. Implementar las siguientes funciones sobre secuencias:
-
+#==========
+# Ejercicio 2. Implementar las siguientes funciones sobre secuencias:
+#==========
 1) ceros_en_posiciones_pares (inout s: seq<Z>)
    requiere: { True }
    modifica: { s }
    asegura:  { |s| = |s@pre| y para todo i entero (0 <= i < |s|), si i es impar 
                entonces s[i] = s@pre[i], y si i es par, entonces s[i] = 0 }
 
+"""
+
+def ceros_en_posiciones_pares(s_in_out:list[int])-> None:
+    for i in range(0, len(s_in_out), 2):  # Iteramos solo sobre índices pares
+        s_in_out[i] = 0
+
+"""
+
 2) ceros_en_posiciones_pares2 (in s: seq<Z>) : seq<Z>
    requiere: { True }
    asegura:  { |s| = |res| y para todo i entero (0 <= i < |res|), si i es impar 
                entonces res[i] = s[i], y si i es par, entonces res[i] = 0 }
 
+"""
+def ceros_en_posiciones_pares2(s:list[int])-> list[int]:
+    res: list[int] = []
+    indice : int = 0
+    if len(s) == 0:
+        res = [0]
+    else:        
+        while indice < len(s):
+            if indice % 2 == 0:
+                res.append(0)
+            else:
+                res.append(s[indice])
+            indice += 1
+    return res
+
+
+"""
 3) sin_vocales (in s: seq<Char>) : seq<Char>
    requiere: { True }
    asegura:  { res es la subsecuencia de s que se obtiene al quitarle todas las vocales a s }
+"""
+def sin_vocales(s:str)-> str:
+    res: str = ""
+    vocales = 'aeiouAEIOUáeíóúÁÉÍÓÚüÜ'
+    for c in s:
+        if c not in vocales:
+            res += c
+    return res
+
+"""
 
 4) reemplaza_vocales (in s: seq<Char>) : seq<Char>
    requiere: { True }
    asegura:  { |res| = |s| y para todo i (0 <= i < |res|), si s[i] es vocal 
                entonces res[i] = ' ', de lo contrario res[i] = s[i] }
 
+"""
+def reemplaza_vocales(s:str)-> str:
+    res: str = ""
+    vocales = 'aeiouAEIOUáeíóúÁÉÍÓÚüÜ'
+    for c in s:
+        if c in vocales:
+            res += ' '
+        else:
+            res += c
+    return res
+
+"""
+               
 5) reverso (in s: seq<Char>) : seq<Char>
    requiere: { True }
    asegura:  { |res| = |s| y para todo i (0 <= i < |res|), res[i] = s[|s| - i - 1] }
+"""
+def reverso(s:str)-> str:
+    res: str = ""
+    for c in range (len(s)-1, -1, -1):
+        res += s[c]
+"""
 
 6) eliminar_repetidos (in s: seq<Char>) : seq<Char>
    requiere: { True }
    asegura:  { |res| <= |s|, todos los elementos de s están en res, y res no tiene elementos repetidos }
 
+"""
+def eliminar_repetidos(s:str)-> str:
+    res: str = ""
+    indice: int = 0
+    while indice < len(s)-1:
+        if not contiene_letra(s[indice+1:],s[indice]):
+            res += s[indice]
+        else:
+            pass
+        indice += 1
+    return res+s[-1]  # Agregamos el último carácter, que no se verifica en el bucle
 
-Ejercicio 3. Estado de aprobación de una materia:
+
+def contiene_letra(s: str, e: str)-> bool:
+    res: bool = False
+    indice: int = 0
+    while indice < len(s) and res == False:
+        res = s[indice] == e
+        indice += 1
+    return res
+
+
+
+"""
+"""
+#============
+# Ejercicio 3.
+#============
+
+"""Estado de aprobación de una materia:
+
 problema resultadoMateria (in notas: seq<Z>) : Z {
   requiere: { |notas| > 0 }
   requiere: { Para todo i en Z si 0 <= i < |notas| -> 0 <= notas[i] <= 10 }
@@ -314,21 +448,33 @@ problema resultadoMateria (in notas: seq<Z>) : Z {
   asegura:  { res = 2 <-> todos los elementos de notas son >= 4 y el promedio está entre 4 (incl) y 7 }
   asegura:  { res = 3 <-> alguno de los elementos de notas es < 4 o el promedio es < 4 }
 }
+"""
 
-Ejercicio 4. Historial de movimientos bancarios:
+
+"""
+#============
+# Ejercicio 4. Historial de movimientos bancarios:
+#============
 Dada una lista de tuplas que representa movimientos en una cuenta ("I" para ingreso, "R" para retiro), 
 devolver el saldo actual asumiendo saldo inicial 0.
 problema saldoActual (in movimientos: seq<Char x Z>) : Z {
   requiere: { Para todo i en Z si 0 <= i < |movimientos| -> movimientos[i][0] en {"I", "R"} y movimientos[i][1] > 0 }
   asegura:  { res = (suma de ingresos) - (suma de retiros) }
 }
+"""
+"""
 
 
-================================================================================
-3. Matrices (Secuencias de secuencias)
-================================================================================
+#======================================
+#
+# 3. Matrices (Secuencias de secuencias)
+#
+#======================================
 
-Ejercicio 5. Analizando parámetros in, out vs. resultado:
+""""""
+#=========
+# Ejercicio 5. Analizando parámetros in, out vs. resultado:
+# =======
 1) pertenece_a_cada_uno_version1 (in s: seq<seq<Z>>, in e: Z, out res: seq<Bool>)
    requiere: { True }
    asegura:  { |res| >= |s| y para todo i en Z (0 <= i < |s|) -> (res[i] = true <-> pertenece(s[i], e)) }
@@ -343,8 +489,12 @@ Ejercicio 5. Analizando parámetros in, out vs. resultado:
 
    Pregunta: ¿Se puede usar la implementación del ej. 2 para la especificación del 1? ¿Y viceversa? Justificar.
 
-
-Ejercicio 6. Funciones sobre matrices:
+"""
+#==============
+# Ejercicio 6. 
+#==============
+"""
+Funciones sobre matrices:
 
 1) es_matriz (in s: seq<seq<Z>>) : Bool
    requiere: { True }
@@ -374,13 +524,18 @@ Ejercicio 6. Funciones sobre matrices:
    requiere: { d, p > 0 }
    asegura:  { Devuelve el resultado de multiplicar una matriz aleatoria d x d por sí misma p veces }
 
+"""
+#========================================================
+#
+# 4. Programas interactivos usando secuencias e input()
+#
+#==========================================================
 
-================================================================================
-4. Programas interactivos usando secuencias e input()
-================================================================================
+#===========
+# Ejercicio 7. Programas interactivos con input():
+#===========
 
-Ejercicio 7. Programas interactivos con input():
-
+"""
 1) Nombres de estudiantes:
    Implementar una función que solicite nombres al usuario mediante input() hasta que ingrese "listo" o un string vacío. Devuelve la lista de nombres ingresados.
 
