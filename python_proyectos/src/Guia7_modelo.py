@@ -511,6 +511,15 @@ problema saldoActual (in movimientos: seq<Char x Z>) : Z {
    requiere: { True }
    asegura:  { |res| >= |s| y para todo i en Z (0 <= i < |s|) -> (res[i] = true <-> pertenece(s[i], e)) }
 
+"""
+def pertenece_a_cada_uno_version1(s: list[list[int]],e:int, res:list[bool])->None:
+    for lista in s:
+        res.append(pertenece(lista,e))
+        
+return None
+
+
+"""
 2) pertenece_a_cada_uno_version2 (in s: seq<seq<Z>>, in e: Z, out res: seq<Bool>)
    requiere: { True }
    asegura:  { |res| = |s| y para todo i en Z (0 <= i < |s|) -> (res[i] = true <-> pertenece(s[i], e)) }
