@@ -8,3 +8,6 @@ __pycache__/
 
 # Variables de entorno / Secretos
 .env
+#Clases Laboratorio/Python/Videos y código de la clase del 289-20260930.zip
+*.mp4
+*.zip

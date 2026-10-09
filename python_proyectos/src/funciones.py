@@ -47,3 +47,55 @@ def quitorepetidos (lista: list[int])->list[int]:
         return [elemento] + quitorepetidos (quitotodos(resto, elemento))
     else:
         return []
+
+#===============================================
+# Funciones : imprimir_un_verso; linea por linea
+#===============================================
+def imprimir_un_verso(parrafo):
+    linea = []
+    for texto in parrafo:
+        if texto != "\n":
+            linea.append(texto)
+            continue
+        print ("".join(linea))
+        del linea [:]
+    else:
+        print("".join(linea))       
+#================================
+# Funcion : Factorial
+#================================
+
+def factorialNum(numero:int)->int:
+    if numero == 0 or numero == 1:
+        return (1)
+    else:
+        return numero * factorialNum (numero-1)
+
+#==========
+# Funcion: 
+# - es_Primo(numero)
+# - cantidad_de_primos(m,n)
+#=========
+
+def es_primo(numero:int)->bool:
+    res : bool = True
+    divisor: int = 1
+    contador: int = 0
+    if numero < 2:
+        res = False
+    else:
+        while divisor <= numero and res == True:
+            if numero % divisor == 0:
+                contador += 1
+                if contador > 2:
+                    res = False
+            divisor += 1
+    return res
+
+def cantidad_de_primos(m: int, n: int) -> int:
+    contador: int = 0
+    for i in range (min(m,n), max(m,n)+1):
+        if es_primo(i):
+            contador += 1
+    return contador
+    
