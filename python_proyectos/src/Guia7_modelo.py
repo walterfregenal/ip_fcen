@@ -449,7 +449,39 @@ problema resultadoMateria (in notas: seq<Z>) : Z {
   asegura:  { res = 3 <-> alguno de los elementos de notas es < 4 o el promedio es < 4 }
 }
 """
+def resultado_materia(notas: list[int]) -> int:
+    res: int = -1
+    promedio: int = calcula_promedio(notas)
+    if not (contiene_uno_menor(notas, 4)) and promedio >=7:
+        res = 1
+    elif not (contiene_uno_menor(notas, 4)) and (4 <= promedio <7):
+        res = 2
+    elif (contiene_uno_menor(notas, 4)) or promedio < 4:
+        res = 3
+    else:
+        pass
+    return res
 
+def calcula_promedio(notas: list[int]) -> int:
+    suma: int = 0
+    res: int = 0
+    for nota in notas:
+        suma += nota
+    res = suma / len(notas) #Promedio
+    return res
+
+
+
+def contiene_uno_menor(notas:list[int], e: int)-> bool:
+    res: bool = False
+    indice: int = 0
+    while  indice < (len(notas)) and res == False:
+        if notas [indice] < e:
+            res = True
+        else:
+            pass
+        indice += 1
+    return res
 
 """
 #============
