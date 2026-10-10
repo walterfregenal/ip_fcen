@@ -513,23 +513,40 @@ problema saldoActual (in movimientos: seq<Char x Z>) : Z {
 
 """
 def pertenece_a_cada_uno_version1(s: list[list[int]],e:int, res:list[bool])->None:
+    res.clear()
     for lista in s:
         res.append(pertenece(lista,e))
         
-return None
+
 
 
 """
 2) pertenece_a_cada_uno_version2 (in s: seq<seq<Z>>, in e: Z, out res: seq<Bool>)
    requiere: { True }
    asegura:  { |res| = |s| y para todo i en Z (0 <= i < |s|) -> (res[i] = true <-> pertenece(s[i], e)) }
+"""
+def pertenece_a_cada_uno_version2(s: list[list[int]],e:int, res:list[bool])->None:
+    res.clear()
+    indice: int = 0
+    while indice < len(s):
+        lista = s[indice]
+        res.append(pertenece(lista,e))
+        indice += 1
+        
+"""
 
 3) pertenece_a_cada_uno_version3 (in s: seq<seq<Z>>, in e: Z) : seq<Bool>
    requiere: { True }
    asegura:  { |res| = |s| y para todo i en Z (0 <= i < |s|) -> (res[i] = true <-> pertenece(s[i], e)) }
 
    Pregunta: ¿Se puede usar la implementación del ej. 2 para la especificación del 1? ¿Y viceversa? Justificar.
+"""
+def pertenece_a_cada_uno_version3(s: list[list[int]],e:int) -> list[bool]:
+   res: list[bool] = [pertenece(lista,e) for lista in s]
+   return res
+"""
 
+   
 """
 #==============
 # Ejercicio 6. 
